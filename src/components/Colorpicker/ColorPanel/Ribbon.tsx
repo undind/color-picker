@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, FC, MutableRefObject, MouseEvent } from 'react';
+import React, { FC, useEffect, useRef, MutableRefObject, MouseEvent } from 'react';
 
 import { TPropsComp, TCoords } from './types';
 

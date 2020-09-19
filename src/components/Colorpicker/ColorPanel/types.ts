@@ -1,6 +1,6 @@
 export type TPropsChange = {
-  alpha?: number;
-  color?: string;
+  alpha: number;
+  color: string;
 };
 
 export type TPropsComp = {

@@ -8,7 +8,7 @@ type TProps = {
   value: any;
   gradient?: boolean;
   solid?: boolean;
-  onChange: (str: string) => void;
+  onChange: (value: string) => void;
   onClose?: () => void;
 };
 

@@ -20,5 +20,5 @@ export default (picker: IPicker) => {
     }
   }
 
-  return false;
+  return '';
 };
