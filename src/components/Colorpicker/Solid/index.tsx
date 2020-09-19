@@ -26,6 +26,7 @@ const ColorPickerSolid: FC<TProps> = ({ value, onChange, onClose }) => {
       const rgba = hexAlphaToRgba(color);
       onChange && onChange(rgba);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceColor]);
 
   const outSideClick = (e: any) => {
@@ -41,6 +42,7 @@ const ColorPickerSolid: FC<TProps> = ({ value, onChange, onClose }) => {
     return () => {
       document.removeEventListener('mousedown', outSideClick);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onCompleteChange = (value: any) => {
@@ -55,8 +57,8 @@ const ColorPickerSolid: FC<TProps> = ({ value, onChange, onClose }) => {
   };
 
   return (
-    <div ref={node} className={classNames('sommerce-editor__elements-colorpicker')}>
-      <ColorPickerPanel color={color.hex} alpha={color.alpha} onChange={(value) => onCompleteChange(value)} />
+    <div ref={node} className={classNames('colorpicker')}>
+      <ColorPickerPanel color={color.hex} alpha={color.alpha} onChange={(value: any) => onCompleteChange(value)} />
       <InputRgba hex={color.hex} alpha={color.alpha} onChange={setColor} onSubmitChange={onChange} />
     </div>
   );

@@ -1,7 +1,17 @@
 import tinycolor from 'tinycolor2';
 
 export default class Color {
-  constructor(input) {
+  color: any;
+  alphaValue: number;
+  blueValue: any;
+  brightnessValue: any;
+  greenValue: any;
+  hueValue: any;
+  lightnessValue: any;
+  saturationValue: any;
+  redValue: any;
+
+  constructor(input: any) {
     this.color = tinycolor(input);
 
     this.initRgb();
@@ -11,7 +21,7 @@ export default class Color {
     this.alphaValue = Math.min(1, initAlpha) * 100;
   }
 
-  static isValidHex(hex) {
+  static isValidHex(hex: any) {
     return tinycolor(hex).isValid();
   }
 

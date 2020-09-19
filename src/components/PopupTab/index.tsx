@@ -16,14 +16,14 @@ export const PopupTabs: FC<Popups> = ({ children, activeTab }: Popups) => {
     });
   });
 
-  return <div className='sommerce-editor__popup_tabs'>{childrenContact}</div>;
+  return <div className='popup_tabs'>{childrenContact}</div>;
 };
 
 export const PopupTabsHeaderLabel: FC<Popups> = ({ children, activeTab, tabID, onClick }: Popups) => {
   return (
     <div
-      className={classNames('sommerce-editor__popup_tabs-header-label', {
-        'sommerce-editor__popup_tabs-header-label-active': activeTab === tabID,
+      className={classNames('popup_tabs-header-label', {
+        'popup_tabs-header-label-active': activeTab === tabID,
       })}
       onClick={onClick}
     >
@@ -38,7 +38,7 @@ export const PopupTabsHeader: FC<Popups> = ({ children, activeTab }: Popups) => 
       activeTab,
     });
   });
-  return <div className='sommerce-editor__popup_tabs-header'>{childrenContact}</div>;
+  return <div className='popup_tabs-header'>{childrenContact}</div>;
 };
 
 export const PopupTabsBody: FC<Popups> = ({ children, activeTab }) => {
@@ -48,12 +48,12 @@ export const PopupTabsBody: FC<Popups> = ({ children, activeTab }) => {
     });
   });
 
-  return <div className='sommerce-editor__popup_tabs-body'>{childrenContact}</div>;
+  return <div className='popup_tabs-body'>{childrenContact}</div>;
 };
 
 export const PopupTabsBodyItem: FC<Popups> = ({ children, activeTab, tabID }: Popups) => {
   if (activeTab === tabID) {
-    return <div className='sommerce-editor__popup_tabs-body-item'>{children}</div>;
+    return <div className='popup_tabs-body-item'>{children}</div>;
   }
 
   return null;

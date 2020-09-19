@@ -1,30 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react';
-import typeColor from './utils/validationColor';
-import PropTypes from 'prop-types';
-
-import Color from './helpers/color';
+import React, { FC, useState, useRef, useEffect, MutableRefObject } from 'react';
+import classNames from 'classnames';
 
 import Board from './Board';
 import Ribbon from './Ribbon';
 import Alpha from './Alpha';
 
-import classNames from 'classnames';
+import { TinyColor } from '../../../utils';
+import { TPropsMain } from './types';
 
-const Panel = ({ alpha, className, color, defaultAlpha, defaultColor, onChange, prefixCls }) => {
-  const node = useRef(null);
+const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange, prefixCls }) => {
+  const node = useRef() as MutableRefObject<HTMLDivElement>;
 
-  const alphaConvert = typeof alpha === 'undefined' ? defaultAlpha : alpha;
-  const colorConvert = new Color(color || defaultColor);
+  const colorConvert = new TinyColor(color);
   const [state, setState] = useState({
     color: colorConvert,
-    alpha: alphaConvert,
+    alpha,
   });
 
   useEffect(() => {
     setState({
       color: colorConvert,
-      alpha: alphaConvert,
+      alpha,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color, alpha]);
 
   const wrapClasses = classNames({
@@ -32,7 +30,7 @@ const Panel = ({ alpha, className, color, defaultAlpha, defaultColor, onChange, 
     [`${prefixCls}-wrap-has-alpha`]: true,
   });
 
-  const handleAlphaChange = (alpha) => {
+  const handleAlphaChange = (alpha: number) => {
     const { color } = state;
     color.alpha = alpha;
 
@@ -46,7 +44,7 @@ const Panel = ({ alpha, className, color, defaultAlpha, defaultColor, onChange, 
     });
   };
 
-  const handleChange = (color) => {
+  const handleChange = (color: any) => {
     const { alpha } = state;
     color.alpha = alpha;
 
@@ -58,7 +56,7 @@ const Panel = ({ alpha, className, color, defaultAlpha, defaultColor, onChange, 
   };
 
   return (
-    <div ref={node} className={[prefixCls, className].join(' ')} tabIndex='0'>
+    <div ref={node} className={[prefixCls, className].join(' ')} tabIndex={0}>
       <div className={`${prefixCls}-inner`}>
         <Board rootPrefixCls={prefixCls} color={state.color} onChange={handleChange} />
         <div className={wrapClasses}>
@@ -74,20 +72,10 @@ const Panel = ({ alpha, className, color, defaultAlpha, defaultColor, onChange, 
   );
 };
 
-Panel.propTypes = {
-  alpha: PropTypes.number,
-  className: PropTypes.string,
-  color: typeColor,
-  defaultAlpha: PropTypes.number,
-  defaultColor: typeColor,
-  onChange: PropTypes.func,
-  prefixCls: PropTypes.string,
-};
-
 Panel.defaultProps = {
   className: '',
-  defaultAlpha: 100,
-  defaultColor: '#ff0000',
+  alpha: 100,
+  color: '#ff0000',
   onChange: () => ({}),
   prefixCls: 'rc-color-picker-panel',
 };

@@ -1,15 +1,15 @@
-.sommerce-editor__elements-colorpicker-static {
+.colorpicker-static {
   position: absolute;
   top: 5px;
   left: 0;
 }
 
-.sommerce-editor__elements-colorpicker {
+.colorpicker {
   background-color: #ffffff;
   min-width: 186px;
   z-index: 1;
 
-  .sommerce-editor__elements-colorpicker-form {
+  .colorpicker-form {
     display: flex;
 
     input {
@@ -32,14 +32,14 @@
       font-family: 'Roboto', sans-serif;
     }
 
-    .sommerce-editor__elements-colorpicker-hex {
+    .colorpicker-hex {
       padding-right: 16px;
     }
-    .sommerce-editor__elements-colorpicker-alpha {
+    .colorpicker-alpha {
       flex-basis: 82px;
     }
 
-    .sommerce-editor__elements-colorpicker-form-label {
+    .colorpicker-form-label {
       width: 100%;
       text-transform: uppercase;
       padding-top: 8px;

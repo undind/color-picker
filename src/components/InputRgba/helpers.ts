@@ -1,18 +1,10 @@
 import { KeyboardEvent, ChangeEvent } from 'react';
-import { isValidHex } from 'hex-and-rgba';
-import _ from 'lodash';
-import { hexToRgba } from '../../utils';
 
 interface IInput {
   alphaValue: number;
   hexValue: string;
   onChangeAlpha: (value: string) => void;
   onChangeHex: (value: string) => void;
-}
-
-interface IPicker {
-  hex: string;
-  alpha: number;
 }
 
 export const validateHex = (hex: string) => {
@@ -70,22 +62,22 @@ export const handlePressEnter = (e: KeyboardEvent, fn: () => void) => {
 export const inputsData = (props: IInput) => {
   return [
     {
-      wrapClass: 'sommerce-editor__elements-input_rgba-hex',
+      wrapClass: 'input_rgba-hex',
       labelSymbol: true,
       idInput: 'rgba-hex',
       valueInput: props.hexValue,
       labelText: 'Hex',
-      labelClass: 'sommerce-editor__elements-input_rgba-label',
+      labelClass: 'input_rgba-label',
       onChangeInput: (e: ChangeEvent<HTMLInputElement>) => props.onChangeHex(onlyLatins(e.target.value)),
       name: 'hex',
     },
     {
-      wrapClass: 'sommerce-editor__elements-input_rgba-alpha',
+      wrapClass: 'input_rgba-alpha',
       labelSymbol: false,
       idInput: 'rgba-alpha',
       valueInput: props.alphaValue,
       labelText: 'Alpha',
-      labelClass: 'sommerce-editor__elements-input_rgba-label',
+      labelClass: 'input_rgba-label',
       onChangeInput: (e: ChangeEvent<HTMLInputElement>) => props.onChangeAlpha(onlyDigits(e.target.value)),
       name: 'alpha',
     },
@@ -94,38 +86,4 @@ export const inputsData = (props: IInput) => {
 
 export const getPercentLabelPosition = (valueInput: string) => {
   return String(valueInput).length === 1 ? '40px' : String(valueInput).length === 2 ? '32px' : '24px';
-};
-
-export const hexAlphaToRgba = (picker: IPicker) => {
-  if (picker) {
-    if (isValidHex(`${picker.hex}`)) {
-      let rgba = hexToRgba(picker.hex, picker.alpha);
-
-      if (rgba) {
-        return rgba;
-      }
-    }
-  }
-
-  return false;
-};
-
-export const getAlphaHex = (value: number) => {
-  if (_.isNumber(value)) {
-    let alphaHEX = '';
-    for (var i = 1; i >= 0; i -= 0.01) {
-      i = Math.round(i * 100) / 100;
-      var alpha = Math.round(i * 255);
-      var hex = (alpha + 0x10000).toString(16).substr(-2).toUpperCase();
-      var perc = Math.round(i * 100);
-
-      if (perc === value) {
-        alphaHEX = hex;
-        break;
-      }
-    }
-
-    return alphaHEX;
-  }
-  return new Error('alpha error');
 };

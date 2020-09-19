@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import './_input_rgba.scss';
 
-import { getAlphaValue, inputsData, handlePressEnter, hexAlphaToRgba, getPercentLabelPosition } from './helpers';
+import { hexAlphaToRgba } from '../../utils';
+import { getAlphaValue, inputsData, handlePressEnter, getPercentLabelPosition } from './helpers';
 
 interface IChange {
   hex: string;
@@ -78,14 +79,14 @@ const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
   };
 
   return (
-    <div className='sommerce-editor__elements-input_rgba'>
-      <div className='sommerce-editor__elements-input_rgba-wrap'>
+    <div className='input_rgba'>
+      <div className='input_rgba-wrap'>
         {inputsData(inputsProps).map((item, index) => {
           const { wrapClass, labelSymbol, idInput, valueInput, labelText, labelClass, onChangeInput, name } = item;
           return (
             <div className={wrapClass} key={index}>
               {labelSymbol && (
-                <label htmlFor='rgba-hex' className='sommerce-editor__elements-input_rgba-hex-label'>
+                <label htmlFor='rgba-hex' className='input_rgba-hex-label'>
                   #
                 </label>
               )}
@@ -93,7 +94,7 @@ const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
                 <label
                   htmlFor='rgba-alpha'
                   style={{ right: getPercentLabelPosition(String(valueInput)) }}
-                  className='sommerce-editor__elements-input_rgba-alpha-label'
+                  className='input_rgba-alpha-label'
                 >
                   %
                 </label>
