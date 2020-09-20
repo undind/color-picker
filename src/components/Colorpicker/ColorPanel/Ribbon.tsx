@@ -77,7 +77,7 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
 
   return (
     <div className={prefixCls} ref={node}>
-      <div className='rc-color-picker-panel-ribbon-bg' />
+      <div className='color-picker-panel-ribbon-bg' />
       <span style={{ left: `${per}%` }} />
       <div className={`${prefixCls}-handler`} onMouseDown={onMouseDown} />
     </div>

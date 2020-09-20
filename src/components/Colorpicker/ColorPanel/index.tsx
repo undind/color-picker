@@ -8,7 +8,7 @@ import Alpha from './Alpha';
 import { TinyColor } from '../../../utils';
 import { TPropsMain } from './types';
 
-const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange, prefixCls }) => {
+const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const colorConvert = new TinyColor(color);
@@ -26,8 +26,8 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange, prefixCls })
   }, [color, alpha]);
 
   const wrapClasses = classNames({
-    [`${prefixCls}-wrap`]: true,
-    [`${prefixCls}-wrap-has-alpha`]: true,
+    [`color-picker-panel-wrap`]: true,
+    [`color-picker-panel-wrap-has-alpha`]: true,
   });
 
   const handleAlphaChange = (alpha: number) => {
@@ -35,8 +35,8 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange, prefixCls })
     color.alpha = alpha;
 
     setState({
-      alpha,
       color,
+      alpha,
     });
     onChange({
       color: color.toHexString(),
@@ -56,15 +56,20 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange, prefixCls })
   };
 
   return (
-    <div ref={node} className={[prefixCls, className].join(' ')} tabIndex={0}>
-      <div className={`${prefixCls}-inner`}>
-        <Board rootPrefixCls={prefixCls} color={state.color} onChange={handleChange} />
+    <div ref={node} className={['color-picker-panel', className].join(' ')} tabIndex={0}>
+      <div className='color-picker-panel-inner'>
+        <Board rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} />
         <div className={wrapClasses}>
-          <div className={`${prefixCls}-wrap-ribbon`}>
-            <Ribbon rootPrefixCls={prefixCls} color={state.color} onChange={handleChange} />
+          <div className='color-picker-panel-wrap-ribbon'>
+            <Ribbon rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} />
           </div>
-          <div className={`${prefixCls}-wrap-alpha`}>
-            <Alpha rootPrefixCls={prefixCls} alpha={state.alpha} color={state.color} onChange={handleAlphaChange} />
+          <div className='color-picker-panel-wrap-alpha'>
+            <Alpha
+              rootPrefixCls='color-picker-panel'
+              alpha={state.alpha}
+              color={state.color}
+              onChange={handleAlphaChange}
+            />
           </div>
         </div>
       </div>
@@ -77,7 +82,6 @@ Panel.defaultProps = {
   alpha: 100,
   color: '#ff0000',
   onChange: () => ({}),
-  prefixCls: 'rc-color-picker-panel',
 };
 
 export default Panel;

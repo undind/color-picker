@@ -15,10 +15,9 @@ type TPropsChange = {
 type TProps = {
   value: string;
   onChange: (value: string) => void;
-  onClose: () => void;
 };
 
-const ColorPickerSolid: FC<TProps> = ({ value, onChange, onClose }) => {
+const ColorPickerSolid: FC<TProps> = ({ value, onChange }) => {
   const node = useRef<HTMLDivElement | null>(null);
 
   const [init, setInit] = useState(true);
@@ -48,7 +47,7 @@ const ColorPickerSolid: FC<TProps> = ({ value, onChange, onClose }) => {
   };
 
   return (
-    <div ref={node} className={classNames('colorpicker')}>
+    <div ref={node} className='colorpicker'>
       <ColorPickerPanel
         color={color.hex}
         alpha={color.alpha}

@@ -9,10 +9,9 @@ type TProps = {
   gradient?: boolean;
   solid?: boolean;
   onChange: (value: string) => void;
-  onClose?: () => void;
 };
 
-const ColorPicker: FC<TProps> = ({ value, gradient, solid, onChange, onClose }) => {
+const ColorPicker: FC<TProps> = ({ value, gradient, solid, onChange }) => {
   const [activeTab, setActiveTab] = useState(getIndexActiveTag(value));
 
   const onChangeSolid = (value: string) => {
@@ -36,10 +35,10 @@ const ColorPicker: FC<TProps> = ({ value, gradient, solid, onChange, onClose }) 
         </PopupTabsHeader>
         <PopupTabsBody>
           <PopupTabsBodyItem tabID={0}>
-            <Solid onChange={onChangeSolid} value={value} onClose={() => console.log('')} />
+            <Solid onChange={onChangeSolid} value={value} />
           </PopupTabsBodyItem>
           <PopupTabsBodyItem tabID={1}>
-            {/* <Gradinet onChange={onChangeGradient} value={value} onClose={() => console.log('')} /> */}
+            {/* <Gradinet onChange={onChangeGradient} value={value} /> */}
           </PopupTabsBodyItem>
         </PopupTabsBody>
       </PopupTabs>
@@ -49,11 +48,11 @@ const ColorPicker: FC<TProps> = ({ value, gradient, solid, onChange, onClose }) 
   return (
     <PopupTabs>
       <PopupTabsBody>
-        {solid ? <Solid onChange={onChangeSolid} value={value} onClose={() => console.log('close')} /> : <Fragment />}
+        {solid ? <Solid onChange={onChangeSolid} value={value} /> : <Fragment />}
         {gradient ? (
           <div></div>
         ) : (
-          // <Gradinet onChange={onChangeGradient} value={value} onClose={() => console.log('close')} />
+          // <Gradinet onChange={onChangeGradient} value={value} />
           <Fragment />
         )}
       </PopupTabsBody>

@@ -22,7 +22,6 @@ export type TPropsMain = {
   className?: string;
   color: string;
   onChange: ({ alpha, color }: TPropsChange) => void;
-  prefixCls?: string;
 };
 
 export type TCoords = {
