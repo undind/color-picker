@@ -1,5 +1,5 @@
 import React, { Fragment, useState, FC } from 'react';
-// import Gradinet from './Gradient';
+import Gradinet from './Gradient';
 import Solid from './Solid';
 import { PopupTabs, PopupTabsBody, PopupTabsHeader, PopupTabsHeaderLabel, PopupTabsBodyItem } from '../PopupTab';
 import { getIndexActiveTag } from './helper';
@@ -18,9 +18,9 @@ const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient, solid, onChange 
     onChange(value);
   };
 
-  // const onChangeGradient = (value: string) => {
-  //   onChange(value);
-  // };
+  const onChangeGradient = (value: string) => {
+    onChange(value);
+  };
 
   if (solid && gradient) {
     return (
@@ -38,7 +38,7 @@ const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient, solid, onChange 
             <Solid onChange={onChangeSolid} value={value} />
           </PopupTabsBodyItem>
           <PopupTabsBodyItem tabID={1}>
-            {/* <Gradinet onChange={onChangeGradient} value={value} /> */}
+            <Gradinet onChange={onChangeGradient} value={value} />
           </PopupTabsBodyItem>
         </PopupTabsBody>
       </PopupTabs>
@@ -49,12 +49,7 @@ const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient, solid, onChange 
     <PopupTabs>
       <PopupTabsBody>
         {solid ? <Solid onChange={onChangeSolid} value={value} /> : <Fragment />}
-        {gradient ? (
-          <div></div>
-        ) : (
-          // <Gradinet onChange={onChangeGradient} value={value} />
-          <Fragment />
-        )}
+        {gradient ? <Gradinet onChange={onChangeGradient} value={value} /> : <Fragment />}
       </PopupTabsBody>
     </PopupTabs>
   );

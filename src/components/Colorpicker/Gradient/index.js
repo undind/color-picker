@@ -3,13 +3,13 @@ import './_color_picker_gradient.scss';
 import { rgbaToAHex, rgbaToArray } from 'hex-and-rgba';
 import InputRgba from '../../InputRgba';
 import PropTypes from 'prop-types';
-import { useDebounce } from 'use-debounce';
+import { useDebounce } from '../../../utils';
 
 import { hexAlphaToRgba, parseGradient } from './helper';
 
 import GradientPicker from '../GradientPanel';
 
-const GradientColorPicker = ({ value, onChange, onClose }) => {
+const GradientColorPicker = ({ value, onChange }) => {
   const node = useRef();
 
   const [gpickr, setGpickr] = useState();
@@ -21,7 +21,7 @@ const GradientColorPicker = ({ value, onChange, onClose }) => {
   });
 
   const [color, setColor] = useState(parseGradient(value));
-  const [debounceColor] = useDebounce(color, 300);
+  const debounceColor = useDebounce(color, 300);
   useEffect(() => {
     if (debounceColor.gradient) {
       onChange(debounceColor.gradient);
