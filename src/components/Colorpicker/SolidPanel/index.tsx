@@ -1,5 +1,4 @@
 import React, { FC, useState, useRef, useEffect, MutableRefObject } from 'react';
-import classNames from 'classnames';
 
 import Board from './Board';
 import Ribbon from './Ribbon';
@@ -12,23 +11,24 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const colorConvert = new TinyColor(color);
+  colorConvert.alpha = alpha;
   const [state, setState] = useState({
     color: colorConvert,
     alpha,
   });
 
   useEffect(() => {
+    const { hue, brightness, saturation } = state.color;
+    colorConvert.hue = hue;
+    colorConvert.brightness = brightness;
+    colorConvert.saturation = saturation;
+
     setState({
       color: colorConvert,
       alpha,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color, alpha]);
-
-  const wrapClasses = classNames({
-    [`color-picker-panel-wrap`]: true,
-    [`color-picker-panel-wrap-has-alpha`]: true,
-  });
 
   const handleAlphaChange = (alpha: number) => {
     const { color } = state;
@@ -59,7 +59,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange }) => {
     <div ref={node} className={['color-picker-panel', className].join(' ')} tabIndex={0}>
       <div className='color-picker-panel-inner'>
         <Board rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} />
-        <div className={wrapClasses}>
+        <div className='color-picker-panel-wrap color-picker-panel-wrap-has-alpha'>
           <div className='color-picker-panel-wrap-ribbon'>
             <Ribbon rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} />
           </div>

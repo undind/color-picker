@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './_color_picker_gradient.scss';
-import classNames from 'classnames';
 import { rgbaToAHex, rgbaToArray } from 'hex-and-rgba';
 import InputRgba from '../../InputRgba';
 import PropTypes from 'prop-types';
@@ -69,7 +68,7 @@ const GradientColorPicker = ({ value, onChange, onClose }) => {
   };
 
   return (
-    <div ref={node} className={classNames('sommerce-editor__elements-colorpicker-gradient')}>
+    <div ref={node} className='sommerce-editor__elements-colorpicker-gradient'>
       <div className='sommerce-editor__elements-colorpicker-gradient-inputs'>
         <InputRgba
           hex={activeColor.hex}

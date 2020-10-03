@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import './_colorpicker.scss';
-import classNames from 'classnames';
 
-import ColorPickerPanel from '../ColorPanel';
+import ColorPickerPanel from '../SolidPanel';
 import InputRgba from '../../InputRgba';
 
 import { getHexAlpha, hexAlphaToRgba, useDebounce } from '../../../utils';
@@ -13,11 +12,18 @@ type TPropsChange = {
 };
 
 type TProps = {
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
+  debounceMS?: number;
+  debounce?: boolean;
 };
 
-const ColorPickerSolid: FC<TProps> = ({ value, onChange }) => {
+const ColorPickerSolid: FC<TProps> = ({
+  value = '#ffffff',
+  onChange = () => ({}),
+  debounceMS = 300,
+  debounce = true,
+}) => {
   const node = useRef<HTMLDivElement | null>(null);
 
   const [init, setInit] = useState(true);
@@ -26,9 +32,12 @@ const ColorPickerSolid: FC<TProps> = ({ value, onChange }) => {
     setColor(getHexAlpha(value));
   }, [value]);
 
-  const debounceColor = useDebounce(color, 300);
+  const debounceColor = useDebounce(color, debounceMS);
   useEffect(() => {
-    if (debounceColor && init === false) {
+    if (debounce && debounceColor && init === false) {
+      const rgba = hexAlphaToRgba(color);
+      onChange && onChange(rgba);
+    } else if (init === false) {
       const rgba = hexAlphaToRgba(color);
       onChange && onChange(rgba);
     }
@@ -37,12 +46,9 @@ const ColorPickerSolid: FC<TProps> = ({ value, onChange }) => {
 
   const onCompleteChange = (value: TPropsChange) => {
     setInit(false);
-    setColor((prev) => {
-      const isTransparent = prev.hex === '#ffffff' && prev.alpha === 0 && value.alpha === 0;
-      return {
-        hex: value.color,
-        alpha: isTransparent ? 100 : Math.round(value.alpha),
-      };
+    setColor({
+      hex: value.color,
+      alpha: Math.round(value.alpha),
     });
   };
 

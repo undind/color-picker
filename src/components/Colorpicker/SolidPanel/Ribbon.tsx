@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useRef, MutableRefObject, MouseEvent } from 'react';
 
+import { TinyColor } from '../../../utils';
+
 import { TPropsComp, TCoords } from './types';
 
 const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
@@ -71,6 +73,14 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
     onChange(color);
   };
 
+  const hueHsv = {
+    h: color.hue,
+    s: 1,
+    v: 1,
+  };
+
+  const hueColor = new TinyColor(hueHsv).toHexString();
+
   const prefixCls = getPrefixCls();
   const hue = color.hue;
   const per = (hue / 360) * 100;
@@ -78,7 +88,7 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
   return (
     <div className={prefixCls} ref={node}>
       <div className='color-picker-panel-ribbon-bg' />
-      <span style={{ left: `${per}%` }} />
+      <span style={{ left: `${per}%`, backgroundColor: hueColor }} />
       <div className={`${prefixCls}-handler`} onMouseDown={onMouseDown} />
     </div>
   );

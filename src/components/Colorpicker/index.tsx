@@ -11,16 +11,16 @@ type TProps = {
   onChange: (value: string) => void;
 };
 
-const ColorPicker: FC<TProps> = ({ value, gradient, solid, onChange }) => {
+const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient, solid, onChange = () => ({}) }) => {
   const [activeTab, setActiveTab] = useState(getIndexActiveTag(value));
 
   const onChangeSolid = (value: string) => {
     onChange(value);
   };
-  
-  const onChangeGradient = (value: string) => {
-    onChange(value);
-  };
+
+  // const onChangeGradient = (value: string) => {
+  //   onChange(value);
+  // };
 
   if (solid && gradient) {
     return (
