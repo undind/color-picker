@@ -20,7 +20,7 @@ export type TPropsCompAlpha = {
 export type TPropsMain = {
   alpha: any;
   className?: string;
-  color: string;
+  hex: string;
   onChange: ({ alpha, color }: TPropsChange) => void;
 };
 

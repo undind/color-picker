@@ -4,6 +4,12 @@
   left: 0;
 }
 
+.colorpicker * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .colorpicker {
   background-color: #ffffff;
   min-width: 186px;
@@ -178,7 +184,7 @@
   border-radius: 6px;
 }
 .color-picker-panel-board-value {
-  border-radius: 2px;
+  border-radius: 6px;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -192,7 +198,7 @@
   background-image: linear-gradient(to bottom, transparent 0%, #000000 100%);
 }
 .color-picker-panel-board-saturation {
-  border-radius: 2px;
+  border-radius: 6px;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -530,6 +536,157 @@
   animation-name: rcColorPickerSlideDownOut;
   animation-play-state: running;
 }
+
+.gradient-interaction {
+  flex-direction: column;
+  display: flex;
+  z-index: 1;
+
+  .gradient-result {
+    height: 74px;
+    width: 100%;
+    position: relative;
+    border-radius: 6px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    flex-grow: 1;
+
+    &:hover {
+      .gradient-angle {
+        opacity: 1;
+      }
+    }
+
+    .gradient-mode {
+      height: 32px;
+      width: 32px;
+      position: relative;
+      top: 20px;
+      left: 16px;
+      border: 2px solid white;
+      border-radius: 0.15em;
+      cursor: pointer;
+      opacity: 0.25;
+      transition: all 0.3s;
+
+      &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        transition: all 0.3s;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .gradient-mode[data-mode='linear']::before {
+      height: 2px;
+      width: 70%;
+      background: white;
+      transform: rotate(45deg);
+      border-radius: 50em;
+    }
+
+    .gradient-mode[data-mode='radial']::before {
+      height: 50%;
+      width: 50%;
+      border-radius: 100%;
+      border: 2px solid white;
+      background-color: white;
+    }
+
+    .gradient-angle {
+      height: 0.35em;
+      width: 0.35em;
+      background: white;
+      border-radius: 100%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: all 0.3s;
+      position: absolute;
+      margin: auto;
+      opacity: 0.25;
+
+      & > div {
+        height: 2px;
+        width: 2em;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 50%;
+        position: absolute;
+        background: white;
+        border-radius: 1em;
+        margin: auto 0;
+        transform-origin: left;
+      }
+    }
+  }
+
+  .gradient-stops {
+    .gradient-stop-preview {
+      height: 8px;
+      width: 100%;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+
+      &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+        background-size: 8px;
+        border-radius: 4px;
+        z-index: -1;
+      }
+    }
+
+    .gradient-stop-marker {
+      position: relative;
+      z-index: 1;
+
+      .gradient-marker {
+        height: 14px;
+        width: 14px;
+        position: absolute;
+        background: currentColor;
+        margin: -11px 0 0 -7px;
+        border-radius: 100%;
+        border: 2px solid white;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.24);
+        transition: opacity 0.15s;
+        cursor: grab;
+
+        &::before {
+          position: absolute;
+          content: '';
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 2"><path fill="white" d="M1,0H2V1H1V0ZM0,1H1V2H0V1Z"/><path fill="gray" d="M0,0H1V1H0V0ZM1,1H2V2H1V1Z"/></svg>');
+          background-size: 4px;
+          border-radius: 100%;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}
+
 @keyframes rcColorPickerSlideUpIn {
   0% {
     opacity: 0;

@@ -13,7 +13,7 @@ type TProps = {
   hex: string;
   alpha: number;
   onChange: ({ hex, alpha }: IChange) => void;
-  onSubmitChange: (rgba: string) => void;
+  onSubmitChange?: (rgba: string) => void;
 };
 
 const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {

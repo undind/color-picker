@@ -7,10 +7,10 @@ import Alpha from './Alpha';
 import { TinyColor } from '../../../utils';
 import { TPropsMain } from './types';
 
-const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange }) => {
+const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
-  const colorConvert = new TinyColor(color);
+  const colorConvert = new TinyColor(hex);
   colorConvert.alpha = alpha;
   const [state, setState] = useState({
     color: colorConvert,
@@ -28,7 +28,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange }) => {
       alpha,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [color, alpha]);
+  }, [hex, alpha]);
 
   const handleAlphaChange = (alpha: number) => {
     const { color } = state;
@@ -80,7 +80,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, color, onChange }) => {
 Panel.defaultProps = {
   className: '',
   alpha: 100,
-  color: '#ff0000',
+  hex: '#ff0000',
   onChange: () => ({}),
 };
 

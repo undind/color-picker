@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import './_colorpicker.scss';
 
 import ColorPickerPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
@@ -55,7 +54,7 @@ const ColorPickerSolid: FC<TProps> = ({
   return (
     <div ref={node} className='colorpicker'>
       <ColorPickerPanel
-        color={color.hex}
+        hex={color.hex}
         alpha={color.alpha}
         onChange={(value: TPropsChange) => onCompleteChange(value)}
       />

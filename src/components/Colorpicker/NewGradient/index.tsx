@@ -4,7 +4,7 @@ import ColorPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
 import GradientPanel from '../NewGradientPanel';
 
-import { getHexAlpha, hexAlphaToRgba, useDebounce } from '../../../utils';
+import { parseGradient, useDebounce } from '../../../utils';
 
 type TPropsChange = {
   alpha: number;
@@ -20,35 +20,46 @@ type TProps = {
 
 const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), debounceMS = 300, debounce = true }) => {
   const [init, setInit] = useState(true);
-  const [color, setColor] = useState(getHexAlpha(value));
-  useEffect(() => {
-    setColor(getHexAlpha(value));
-  }, [value]);
+  const [activeColor, setActiveColor] = useState({
+    hex: '#ffffff',
+    alpha: 100,
+  });
 
+  const [color, setColor] = useState(parseGradient(value));
+  useEffect(() => {
+    setColor({
+      ...color,
+      ...parseGradient(value),
+    });
+  }, [value]);
+  console.log(color)
   const debounceColor = useDebounce(color, debounceMS);
   useEffect(() => {
     if (debounce && debounceColor && init === false) {
-      const rgba = hexAlphaToRgba(color);
-      onChange && onChange(rgba);
+      onChange && onChange(debounceColor.gradient);
     } else if (init === false) {
-      const rgba = hexAlphaToRgba(color);
-      onChange && onChange(rgba);
+      onChange && onChange(debounceColor.gradient);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceColor]);
 
-  const onCompleteChange = (value: TPropsChange) => {
+  const onChangeInputs = (value: any) => {
+    console.log(value);
+  };
+
+  const onChangeActiveColor = (gpickr: any) => {
     setInit(false);
-    setColor({
-      hex: value.color,
-      alpha: Math.round(value.alpha),
-    });
+    console.log(gpickr);
   };
 
   return (
-    <div className='gradientpicker'>
-      <ColorPanel color={color.hex} alpha={color.alpha} onChange={(value: TPropsChange) => onCompleteChange(value)} />
-      <InputRgba hex={color.hex} alpha={color.alpha} onChange={setColor} onSubmitChange={onChange} />
+    <div className='colorpicker'>
+      <ColorPanel
+        hex={activeColor.hex}
+        alpha={activeColor.alpha}
+        onChange={(value: TPropsChange) => onChangeActiveColor(value)}
+      />
+      <InputRgba hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeInputs(value)} />
       <GradientPanel />
     </div>
   );

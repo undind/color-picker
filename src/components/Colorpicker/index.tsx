@@ -1,6 +1,10 @@
+import './_colorpicker.scss';
 import React, { Fragment, useState, FC } from 'react';
+
 import Gradinet from './NewGradient';
-import Solid from './Solid';
+// import Solid from './Solid';
+import Solid from './Gradient';
+
 import { PopupTabs, PopupTabsBody, PopupTabsHeader, PopupTabsHeaderLabel, PopupTabsBodyItem } from '../PopupTab';
 import { getIndexActiveTag } from './helper';
 
