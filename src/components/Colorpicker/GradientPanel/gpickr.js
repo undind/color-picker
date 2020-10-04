@@ -493,6 +493,8 @@ class GPickr {
         return `radial-gradient(${this._direction}, ${linearStops})`;
       case 'conic':
         return `conic-gradient(${linearStops})`;
+      default:
+        break;
     }
   }
 
@@ -516,6 +518,8 @@ class GPickr {
           return this.map((v) => `${v.color} ${(v.location * 100).toFixed(1)}%`).join(',');
         case 'conic':
           return this.map((v) => `${v.color} ${(v.location * 360).toFixed(1)}deg`).join(',');
+        default:
+          break;
       }
     };
 

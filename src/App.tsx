@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Colorpicker from './components/Colorpicker';
 
 function App() {
+  const [color, setColor] = useState('#ffffff');
+
   const onChange = (value: string) => {
-    console.log(value);
+    setColor(value);
   };
 
   return (
     <div>
-      <Colorpicker value='#ffffff' onChange={onChange} />
+      <div style={{ background: color, width: '267px', height: '267px', marginBottom: '30px' }}></div>
+      <Colorpicker value={color} onChange={onChange} solid={true} gradient={true} />
     </div>
   );
 }

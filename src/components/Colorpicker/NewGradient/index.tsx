@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
-import './_colorpicker.scss';
+import React, { FC, useEffect, useState } from 'react';
 
-import ColorPickerPanel from '../ColorPanel';
+import ColorPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
+import GradientPanel from '../NewGradientPanel';
 
 import { getHexAlpha, hexAlphaToRgba, useDebounce } from '../../../utils';
 
@@ -18,14 +18,7 @@ type TProps = {
   debounce?: boolean;
 };
 
-const ColorPickerSolid: FC<TProps> = ({
-  value = '#ffffff',
-  onChange = () => ({}),
-  debounceMS = 300,
-  debounce = true,
-}) => {
-  const node = useRef<HTMLDivElement | null>(null);
-
+const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), debounceMS = 300, debounce = true }) => {
   const [init, setInit] = useState(true);
   const [color, setColor] = useState(getHexAlpha(value));
   useEffect(() => {
@@ -53,15 +46,12 @@ const ColorPickerSolid: FC<TProps> = ({
   };
 
   return (
-    <div ref={node} className='colorpicker'>
-      <ColorPickerPanel
-        color={color.hex}
-        alpha={color.alpha}
-        onChange={(value: TPropsChange) => onCompleteChange(value)}
-      />
+    <div className='gradientpicker'>
+      <ColorPanel color={color.hex} alpha={color.alpha} onChange={(value: TPropsChange) => onCompleteChange(value)} />
       <InputRgba hex={color.hex} alpha={color.alpha} onChange={setColor} onSubmitChange={onChange} />
+      <GradientPanel />
     </div>
   );
 };
 
-export default ColorPickerSolid;
+export default Gradient;

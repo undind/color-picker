@@ -21,10 +21,7 @@ export const getAlphaHex = (value) => {
     for (var i = 1; i >= 0; i -= 0.01) {
       i = Math.round(i * 100) / 100;
       var alpha = Math.round(i * 255);
-      var hex = (alpha + 0x10000)
-        .toString(16)
-        .substr(-2)
-        .toUpperCase();
+      var hex = (alpha + 0x10000).toString(16).substr(-2).toUpperCase();
       var perc = Math.round(i * 100);
 
       if (perc === value) {
@@ -73,6 +70,8 @@ export const stopsToString = (stops, mode) => {
       return stopsMap.map((v) => `${v.color} ${(v.location * 100).toFixed(1)}%`).join(',');
     case 'conic':
       return stopsMap.map((v) => `${v.color} ${(v.location * 360).toFixed(1)}deg`).join(',');
+    default:
+      break;
   }
 
   return stopsMap;
@@ -85,10 +84,13 @@ export const formatGradient = (stops, mode, angle, direction) => {
     case 'linear':
       if (angle === 'number') return `linear-gradient(${angle}deg, ${linearString})`;
       if (angle === 'string') return `linear-gradient(${angle}, ${linearString})`;
+      break;
     case 'radial':
       return `radial-gradient(${direction}, ${linearString})`;
     case 'conic':
       return `conic-gradient(${linearString})`;
+    default:
+      break;
   }
 };
 

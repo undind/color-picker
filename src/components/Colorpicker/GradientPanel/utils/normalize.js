@@ -24,6 +24,8 @@ export default {
         return (val / 400) * 360;
       case 'turn':
         return val * 360;
+      default:
+        break;
     }
 
     return null;
