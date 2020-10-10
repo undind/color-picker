@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 interface IColor {
   gradient: string;
@@ -12,9 +12,22 @@ type TProps = {
   setColor: (color: IColor) => void;
 };
 
+const RADIALS_POS = [
+  { pos: 'tl', active: false },
+  { pos: 'tm', active: false },
+  { pos: 'tr', active: false },
+  { pos: 'l', active: false },
+  { pos: 'm', active: false },
+  { pos: 'r', active: false },
+  { pos: 'bl', active: false },
+  { pos: 'bm', active: false },
+  { pos: 'br', active: false },
+];
+
 const GradientPanel: FC<TProps> = ({ color, setColor }) => {
   console.log(color);
   const { stops, gradient, type, modifier } = color;
+  const [radialsPosition, setRadialPosition] = useState(RADIALS_POS);
   console.log(gradient);
 
   const onClickMode = () => {
@@ -38,29 +51,69 @@ const GradientPanel: FC<TProps> = ({ color, setColor }) => {
     }
   };
 
+  const onAddColorStop = (e: any) => {
+    if (e.target.className !== 'gradient-marker') {
+      const rect = e.target.getBoundingClientRect();
+      const clickPos = e.clientX - rect.left;
+      const loc = Number(((100 / rect.width) * clickPos).toFixed(1)) / 100;
+
+      setColor({
+        ...color,
+        stops: [...color.stops, ['rgba(255, 255, 255, 1)', loc]].sort((a: any, b: any) => a[1] - b[1]),
+      });
+    }
+  };
+
+  const setActiveRadialPosition = (e: any) => {
+    const pos = e.target.getAttribute('data-pos');
+
+    setRadialPosition((prevState) => {
+      return prevState.map((item) => {
+        if (item.pos === pos) {
+          return {
+            ...item,
+            active: true,
+          };
+        }
+
+        return {
+          ...item,
+          active: false,
+        };
+      });
+    });
+  };
+
   return (
     <div className='gradient-interaction'>
       <div className='gradient-result' style={{ background: gradient }}>
         <div data-mode={type} className='gradient-mode' onClick={() => onClickMode()}></div>
-        <div className='gradient-angle'>
+        <div className='gradient-angle' style={{ visibility: type === 'linear' ? 'visible' : 'hidden' }}>
           <div style={{ transform: `rotate(${modifier - 90}deg)` }}></div>
         </div>
-        <div className='gradient-pos'>
-          <div data-pos='tl'></div>
-          <div data-pos='tm'></div>
-          <div data-pos='tr'></div>
-          <div data-pos='l'></div>
-          <div data-pos='m'></div>
-          <div data-pos='r'></div>
-          <div data-pos='bl'></div>
-          <div data-pos='bm'></div>
-          <div data-pos='br'></div>
+        <div
+          className='gradient-pos'
+          style={{ opacity: type === 'radial' ? '1' : '0', visibility: type === 'radial' ? 'visible' : 'hidden' }}
+        >
+          {radialsPosition.map((item) => {
+            return (
+              <div
+                data-pos={item.pos}
+                className={item.active ? 'gradient-active' : ''}
+                onClick={(e) => setActiveRadialPosition(e)}
+              />
+            );
+          })}
         </div>
       </div>
-      <div className='gradient-stops'>
+      <div className='gradient-stops' onClick={(e) => onAddColorStop(e)}>
         <div
           className='gradient-stop-preview'
-          style={{ background: 'linear-gradient(to right, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 100%)' }}
+          style={{
+            background: `linear-gradient(to right, ${stops
+              .map((color: [string, number]) => `${color[0]} ${color[1] * 100}%`)
+              .join(', ')})`,
+          }}
         />
         <div className='gradient-stop-marker'>
           {stops.map((color: [string, number]) => {

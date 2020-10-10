@@ -600,6 +600,16 @@
       border-radius: 100%;
       border: 2px solid white;
       background-color: white;
+
+      & + .gradient-angle {
+        opacity: 0;
+      }
+    }
+
+    .gradient-mode[data-mode='radial'] {
+      & + .gradient-angle {
+        opacity: 0;
+      }
     }
 
     .gradient-angle {
@@ -628,6 +638,67 @@
         border-radius: 1em;
         margin: auto 0;
         transform-origin: left;
+      }
+    }
+
+    .gradient-pos {
+      height: 5em;
+      width: 5em;
+      display: grid;
+      display: -ms-grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      -ms-grid-columns: 1fr 1fr 1fr;
+      -ms-grid-rows: 1fr 1fr 1fr;
+      opacity: 1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: all 0.3s;
+      position: absolute;
+      margin: auto;
+
+      & > div {
+        height: 15px;
+        width: 15px;
+        border: 2px solid transparent;
+        position: relative;
+        margin: auto;
+        transition: all 0.3s;
+      }
+
+      & > div:not(.gradient-active) {
+        cursor: pointer;
+      }
+
+      & > div::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        width: 5px;
+        border-radius: 100%;
+        background: white;
+        transition: all 0.3s;
+        opacity: 0.25;
+        margin: auto;
+      }
+
+      & > div:hover::before {
+        opacity: 1;
+      }
+
+      & > div.gradient-active {
+        border-color: white;
+        border-radius: 100%;
+      }
+
+      & > div.gradient-active::before {
+        opacity: 1;
       }
     }
   }
