@@ -14,13 +14,13 @@ const match = (content: any, regexp: any, group = -1) => {
   return match ? (~group ? match[group] : match) : null;
 };
 
-export default (str: any) => {
+export default (str: string) => {
   const defaultStops = {
     stops: [
       ['rgba(0, 0, 0, 1)', 0],
       ['rgba(183, 80, 174, 0.92)', 1],
     ],
-    gradient: `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, 0deg, rgba(183, 80, 174, 0.92) 100.0%)`,
+    gradient: `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, rgba(183, 80, 174, 0.92) 100.0%)`,
     modifier: 180,
     type: 'linear',
   };
@@ -38,7 +38,7 @@ export default (str: any) => {
         ['rgba(0, 0, 0, 1)', 0],
         [`rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1)`, 1],
       ];
-      defaultStops.gradient = `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, 0deg, rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1) 100.0%)`;
+      defaultStops.gradient = `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1) 100.0%)`;
     }
 
     return defaultStops;

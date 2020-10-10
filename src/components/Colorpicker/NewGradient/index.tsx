@@ -32,7 +32,7 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
       ...parseGradient(value),
     });
   }, [value]);
-  console.log(color)
+
   const debounceColor = useDebounce(color, debounceMS);
   useEffect(() => {
     if (debounce && debounceColor && init === false) {
@@ -44,12 +44,13 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
   }, [debounceColor]);
 
   const onChangeInputs = (value: any) => {
+    setInit(false);
     console.log(value);
   };
 
-  const onChangeActiveColor = (gpickr: any) => {
+  const onChangeActiveColor = (value: TPropsChange) => {
     setInit(false);
-    console.log(gpickr);
+    console.log(value);
   };
 
   return (
@@ -60,7 +61,7 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
         onChange={(value: TPropsChange) => onChangeActiveColor(value)}
       />
       <InputRgba hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeInputs(value)} />
-      <GradientPanel />
+      <GradientPanel color={color} setColor={setColor} />
     </div>
   );
 };
