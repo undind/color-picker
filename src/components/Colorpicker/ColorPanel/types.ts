@@ -1,13 +1,18 @@
 export type TPropsChange = {
   alpha: number;
-  color: string;
+  hex: string;
+};
+
+export type TPropsChangeComp = {
+  alpha: number;
+  color: object;
 };
 
 export type TPropsComp = {
   rootPrefixCls?: string;
   color: any;
   alpha?: number;
-  onChange: ({ alpha, color }: TPropsChange) => void;
+  onChange: ({ alpha, color }: TPropsChangeComp) => void;
 };
 
 export type TPropsCompAlpha = {
@@ -21,7 +26,7 @@ export type TPropsMain = {
   alpha: any;
   className?: string;
   hex: string;
-  onChange: ({ alpha, color }: TPropsChange) => void;
+  onChange: ({ alpha, hex }: TPropsChange) => void;
 };
 
 export type TCoords = {

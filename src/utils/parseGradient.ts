@@ -1,5 +1,4 @@
 import { isValidHex, rgbaToArray } from 'hex-and-rgba';
-import _ from 'lodash';
 
 import { hexToRgba } from '../utils';
 

@@ -7,7 +7,7 @@ import { getHexAlpha, hexAlphaToRgba, useDebounce } from '../../../utils';
 
 type TPropsChange = {
   alpha: number;
-  color: string;
+  hex: string;
 };
 
 type TProps = {
@@ -46,7 +46,7 @@ const ColorPickerSolid: FC<TProps> = ({
   const onCompleteChange = (value: TPropsChange) => {
     setInit(false);
     setColor({
-      hex: value.color,
+      hex: value.hex,
       alpha: Math.round(value.alpha),
     });
   };

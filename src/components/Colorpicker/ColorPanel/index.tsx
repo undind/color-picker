@@ -39,7 +39,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
       alpha,
     });
     onChange({
-      color: color.toHexString(),
+      hex: color.toHexString(),
       alpha,
     });
   };
@@ -50,7 +50,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
 
     setState({ ...state, color, alpha: color.alpha });
     onChange({
-      color: color.toHexString(),
+      hex: color.toHexString(),
       alpha: color.alpha,
     });
   };

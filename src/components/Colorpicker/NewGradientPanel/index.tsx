@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
 
+import { hexAlphaToRgba } from '../../../utils';
+
 interface IColor {
   gradient: string;
   type: string;
@@ -10,6 +12,8 @@ interface IColor {
 type TProps = {
   color: IColor;
   setColor: (color: IColor) => void;
+  activeColor: any;
+  setActiveColor: any;
 };
 
 const RADIALS_POS = [
@@ -24,11 +28,10 @@ const RADIALS_POS = [
   { pos: 'br', active: false },
 ];
 
-const GradientPanel: FC<TProps> = ({ color, setColor }) => {
-  console.log(color);
+const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColor }) => {
   const { stops, gradient, type, modifier } = color;
+
   const [radialsPosition, setRadialPosition] = useState(RADIALS_POS);
-  console.log(gradient);
 
   const onClickMode = () => {
     switch (type) {
@@ -59,7 +62,9 @@ const GradientPanel: FC<TProps> = ({ color, setColor }) => {
 
       setColor({
         ...color,
-        stops: [...color.stops, ['rgba(255, 255, 255, 1)', loc]].sort((a: any, b: any) => a[1] - b[1]),
+        stops: [...color.stops, [hexAlphaToRgba(activeColor), loc]].sort(
+          (a: [string, number], b: [string, number]) => a[1] - b[1]
+        ),
       });
     }
   };
@@ -98,6 +103,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor }) => {
           {radialsPosition.map((item) => {
             return (
               <div
+                key={item.pos}
                 data-pos={item.pos}
                 className={item.active ? 'gradient-active' : ''}
                 onClick={(e) => setActiveRadialPosition(e)}
