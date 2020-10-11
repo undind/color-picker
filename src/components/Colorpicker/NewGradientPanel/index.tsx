@@ -6,7 +6,7 @@ import { hexAlphaToRgba, getGradient } from '../../../utils';
 interface IColor {
   gradient: string;
   type: string;
-  modifier: number;
+  modifier: any;
   stops: any;
 }
 
@@ -18,15 +18,15 @@ type TProps = {
 };
 
 const RADIALS_POS = [
-  { pos: 'tl', active: false },
-  { pos: 'tm', active: false },
-  { pos: 'tr', active: false },
-  { pos: 'l', active: false },
-  { pos: 'm', active: false },
-  { pos: 'r', active: false },
-  { pos: 'bl', active: false },
-  { pos: 'bm', active: false },
-  { pos: 'br', active: false },
+  { pos: 'tl', css: 'circle at left top', active: false },
+  { pos: 'tm', css: 'circle at center top', active: false },
+  { pos: 'tr', css: 'circle at right top', active: false },
+  { pos: 'r', css: 'circle at right', active: false },
+  { pos: 'm', css: 'circle at center', active: true },
+  { pos: 'l', css: 'circle at left', active: false },
+  { pos: 'br', css: 'circle at right bottom', active: false },
+  { pos: 'bm', css: 'circle at center bottom', active: false },
+  { pos: 'bl', css: 'circle at left bottom', active: false },
 ];
 
 const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColor }) => {
@@ -37,9 +37,11 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
   const onClickMode = () => {
     switch (type) {
       case 'linear':
+        const activePos = radialsPosition.find((item) => item.active);
         setColor({
           ...color,
-          gradient: `${getGradient('radial', stops, modifier)}`,
+          modifier: activePos && activePos.css,
+          gradient: `${getGradient('radial', stops, activePos && activePos.css)}`,
           type: 'radial',
         });
         break;
@@ -47,7 +49,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
       case 'radial':
         setColor({
           ...color,
-          gradient: `${getGradient('linear', stops, modifier)}`,
+          gradient: `${getGradient('linear', stops, 180)}`,
           type: 'linear',
         });
         break;
@@ -77,25 +79,33 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
         loc: loc,
       });
     }
+
+    return;
   };
 
   const setActiveRadialPosition = (e: any) => {
     const pos = e.target.getAttribute('data-pos');
-
-    setRadialPosition((prevState) => {
-      return prevState.map((item) => {
-        if (item.pos === pos) {
-          return {
-            ...item,
-            active: true,
-          };
-        }
-
+    const newRadialsPosition = radialsPosition.map((item) => {
+      if (item.pos === pos) {
         return {
           ...item,
-          active: false,
+          active: true,
         };
-      });
+      }
+
+      return {
+        ...item,
+        active: false,
+      };
+    });
+
+    setRadialPosition(newRadialsPosition);
+
+    const activePos = newRadialsPosition.find((item) => item.active);
+    setColor({
+      ...color,
+      modifier: activePos && activePos.css,
+      gradient: `${getGradient('radial', stops, activePos && activePos.css)}`,
     });
   };
 

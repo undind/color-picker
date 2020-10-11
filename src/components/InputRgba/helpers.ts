@@ -64,7 +64,7 @@ export const inputsData = (props: IInput) => {
     {
       wrapClass: 'input_rgba-hex',
       labelSymbol: true,
-      idInput: 'rgba-hex',
+      idInput: `rgba-hex${Math.random() * 10000}`,
       valueInput: props.hexValue,
       labelText: 'Hex',
       labelClass: 'input_rgba-label',
@@ -74,7 +74,7 @@ export const inputsData = (props: IInput) => {
     {
       wrapClass: 'input_rgba-alpha',
       labelSymbol: false,
-      idInput: 'rgba-alpha',
+      idInput: `rgba-alpha${Math.random() * 10000}`,
       valueInput: props.alphaValue,
       labelText: 'Alpha',
       labelClass: 'input_rgba-label',

@@ -92,7 +92,7 @@ const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
               )}
               {name === 'alpha' && (
                 <label
-                  htmlFor='rgba-alpha'
+                  htmlFor={idInput}
                   style={{ right: getPercentLabelPosition(String(valueInput)) }}
                   className='input_rgba-alpha-label'
                 >
