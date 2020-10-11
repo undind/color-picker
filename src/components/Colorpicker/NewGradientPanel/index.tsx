@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
+import { rgbaToHex, rgbaToArray } from 'hex-and-rgba';
 
-import { hexAlphaToRgba } from '../../../utils';
+import { hexAlphaToRgba, getGradient } from '../../../utils';
 
 interface IColor {
   gradient: string;
@@ -38,6 +39,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
       case 'linear':
         setColor({
           ...color,
+          gradient: `${getGradient('radial', stops, modifier)}`,
           type: 'radial',
         });
         break;
@@ -45,6 +47,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
       case 'radial':
         setColor({
           ...color,
+          gradient: `${getGradient('linear', stops, modifier)}`,
           type: 'linear',
         });
         break;
@@ -59,12 +62,19 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
       const rect = e.target.getBoundingClientRect();
       const clickPos = e.clientX - rect.left;
       const loc = Number(((100 / rect.width) * clickPos).toFixed(1)) / 100;
+      const newStops = [...color.stops, [hexAlphaToRgba(activeColor), loc]].sort(
+        (a: [string, number], b: [string, number]) => a[1] - b[1]
+      );
 
       setColor({
         ...color,
-        stops: [...color.stops, [hexAlphaToRgba(activeColor), loc]].sort(
-          (a: [string, number], b: [string, number]) => a[1] - b[1]
-        ),
+        gradient: `${getGradient(type, newStops, modifier)}`,
+        stops: newStops,
+      });
+
+      setActiveColor({
+        ...activeColor,
+        loc: loc,
       });
     }
   };
@@ -86,6 +96,17 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
           active: false,
         };
       });
+    });
+  };
+
+  const selectActiveColor = (rgba: string, position: number) => {
+    const rgbaArray = rgbaToArray(rgba);
+    const hex = rgbaToHex([rgbaArray[0], rgbaArray[1], rgbaArray[2]]);
+
+    setActiveColor({
+      hex,
+      alpha: Number(rgbaArray[3]) * 100,
+      loc: Number(position) / 100,
     });
   };
 
@@ -127,7 +148,12 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
             const rgba = color[0];
 
             return (
-              <div key={rgba + position} className='gradient-marker' style={{ left: position + '%', color: rgba }} />
+              <div
+                key={rgba + position}
+                className='gradient-marker'
+                style={{ left: position + '%', color: rgba }}
+                onClick={() => selectActiveColor(rgba, position)}
+              />
             );
           })}
         </div>

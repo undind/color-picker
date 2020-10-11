@@ -5,4 +5,5 @@ export { default as getHexAlpha } from './getHexAlpha';
 export { default as useDebounce } from './useDebounce';
 export { default as formatGradient } from './formatGradient';
 export { default as parseGradient } from './parseGradient';
+export { default as getGradient } from './getGradient';
 export { default as TinyColor } from './color';

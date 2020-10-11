@@ -5,7 +5,7 @@ import ColorPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
 import GradientPanel from '../NewGradientPanel';
 
-import { parseGradient, useDebounce } from '../../../utils';
+import { parseGradient, useDebounce, hexAlphaToRgba, getGradient } from '../../../utils';
 
 import { TPropsChange } from '../ColorPanel/types';
 
@@ -46,28 +46,33 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounceColor]);
 
-  const onChangeInputs = (value: TPropsChange) => {
-    setInit(false);
+  const onChangeActiveColor = (value: TPropsChange) => {
+    init && setInit(false);
     setActiveColor({
       ...activeColor,
       hex: value.hex,
       alpha: value.alpha,
     });
-  };
 
-  const onChangeActiveColor = (value: TPropsChange) => {
-    setInit(false);
-    setActiveColor({
-      ...activeColor,
-      hex: value.hex,
-      alpha: value.alpha,
+    const { stops, type, modifier } = color;
+    const rgba = hexAlphaToRgba(value);
+    const newStops = stops.map((item) => {
+      if (item[1] === activeColor.loc) {
+        return [rgba, item[1]];
+      }
+      return item;
+    });
+    setColor({
+      ...color,
+      gradient: `${getGradient(type, newStops, modifier)}`,
+      stops: newStops,
     });
   };
 
   return (
     <div className='colorpicker'>
       <ColorPanel hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeActiveColor(value)} />
-      <InputRgba hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeInputs(value)} />
+      <InputRgba hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeActiveColor(value)} />
       <GradientPanel color={color} setColor={setColor} activeColor={activeColor} setActiveColor={setActiveColor} />
     </div>
   );

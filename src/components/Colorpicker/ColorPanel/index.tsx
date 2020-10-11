@@ -18,10 +18,10 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
   });
 
   useEffect(() => {
-    const { hue, brightness, saturation } = state.color;
-    colorConvert.hue = hue;
-    colorConvert.brightness = brightness;
-    colorConvert.saturation = saturation;
+    // const { hue, brightness, saturation } = state.color;
+    // colorConvert.hue = hue;
+    // colorConvert.brightness = brightness;
+    // colorConvert.saturation = saturation;
 
     setState({
       color: colorConvert,

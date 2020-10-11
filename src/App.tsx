@@ -4,15 +4,14 @@ import Colorpicker from './components/Colorpicker';
 function App() {
   const [color, setColor] = useState('#ffffff');
   const [color2, setColor2] = useState('#ffffff');
-  
+
   const onChange = (value: string) => {
     setColor(value);
-    console.log(color);
+    console.log(value);
   };
-
+  console.log(color);
   const onChange2 = (value: string) => {
     setColor2(value);
-    console.log(color2);
   };
 
   return (
