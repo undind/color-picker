@@ -58,7 +58,6 @@ export const handlePressEnter = (e: KeyboardEvent, fn: () => void) => {
   }
 };
 
-// DATA FOR INPUTS
 export const inputsData = (props: IInput) => {
   return [
     {

@@ -6,4 +6,8 @@ export { default as useDebounce } from './useDebounce';
 export { default as formatGradient } from './formatGradient';
 export { default as parseGradient } from './parseGradient';
 export { default as getGradient } from './getGradient';
+export { default as rgbaToArray } from './rgbaToArray';
+export { default as rgbaToHex } from './rgbaToHex';
+export { default as isValidHex } from './isValidHex';
+export { default as isValidRgba } from './isValidRgba';
 export { default as TinyColor } from './color';

@@ -20,6 +20,7 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
   }, []);
 
   const onMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
     const x = e.clientX;
     const y = e.clientY;
 

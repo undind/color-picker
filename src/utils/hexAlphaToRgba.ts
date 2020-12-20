@@ -1,4 +1,4 @@
-import { isValidHex } from 'hex-and-rgba';
+import { isValidHex } from '../utils';
 import getAlphaHex from './getAlphaHex';
 import hexToRgba from './hexToRgba';
 

@@ -1,9 +1,8 @@
 import './_colorpicker.scss';
 import React, { Fragment, useState, FC } from 'react';
 
-import Gradinet from './NewGradient';
+import Gradinet from './Gradient';
 import Solid from './Solid';
-import OldGradient from './Gradient';
 
 import { PopupTabs, PopupTabsBody, PopupTabsHeader, PopupTabsHeaderLabel, PopupTabsBodyItem } from '../PopupTab';
 import { getIndexActiveTag } from './helper';
@@ -15,7 +14,7 @@ type TProps = {
   onChange: (value: string) => void;
 };
 
-const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient, solid, onChange = () => ({}) }) => {
+const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient = false, solid = true, onChange = () => ({}) }) => {
   const [activeTab, setActiveTab] = useState(getIndexActiveTag(value));
 
   const onChangeSolid = (value: string) => {
@@ -53,15 +52,10 @@ const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient, solid, onChange 
     <PopupTabs>
       <PopupTabsBody>
         {solid ? <Solid onChange={onChangeSolid} value={value} /> : <Fragment />}
-        {gradient ? <OldGradient onChange={onChangeGradient} value={value} /> : <Fragment />}
+        {gradient ? <Gradinet onChange={onChangeGradient} value={value} /> : <Fragment />}
       </PopupTabsBody>
     </PopupTabs>
   );
-};
-
-ColorPicker.defaultProps = {
-  gradient: false,
-  solid: true,
 };
 
 export default ColorPicker;

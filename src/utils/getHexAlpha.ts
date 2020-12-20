@@ -1,4 +1,4 @@
-import { rgbaToAHex, isValidHex, rgbaToArray } from 'hex-and-rgba';
+import { rgbaToArray, isValidHex, rgbaToHex } from '../utils';
 
 export default (value: string) => {
   const defaultObject = {
@@ -15,7 +15,7 @@ export default (value: string) => {
       } else {
         const rgbaArray = rgbaToArray(value);
         if (rgbaArray) {
-          const hex = rgbaToAHex(rgbaArray[0], rgbaArray[1], rgbaArray[2]);
+          const hex = rgbaToHex([rgbaArray[0], rgbaArray[1], rgbaArray[2]]);
           if (hex) {
             defaultObject.hex = hex;
           }

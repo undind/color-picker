@@ -1,11 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { rgbaToHex, rgbaToArray } from 'hex-and-rgba';
 
 import ColorPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
-import GradientPanel from '../NewGradientPanel';
+import GradientPanel from '../GradientPanel';
 
-import { parseGradient, useDebounce, hexAlphaToRgba, getGradient } from '../../../utils';
+import { parseGradient, useDebounce, hexAlphaToRgba, getGradient, rgbaToArray, rgbaToHex } from '../../../utils';
 
 import { TPropsChange } from '../ColorPanel/types';
 
@@ -20,12 +19,14 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
   const lastStop = rgbaToArray(parseGradient(value).stops[parseGradient(value).stops.length - 1][0]);
   const lastStopLoc = parseGradient(value).stops[parseGradient(value).stops.length - 1][1];
   const activeStop = rgbaToHex([lastStop[0], lastStop[1], lastStop[2]]);
+  const activeIdx = parseGradient(value).stops[parseGradient(value).stops.length - 1][2];
 
   const [init, setInit] = useState(true);
   const [activeColor, setActiveColor] = useState({
     hex: activeStop,
     alpha: Number(lastStop[3]) * 100,
     loc: lastStopLoc,
+    index: activeIdx,
   });
 
   const [color, setColor] = useState(parseGradient(value));
@@ -57,8 +58,8 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
     const { stops, type, modifier } = color;
     const rgba = hexAlphaToRgba(value);
     const newStops = stops.map((item) => {
-      if (item[1] === activeColor.loc) {
-        return [rgba, item[1]];
+      if (item[2] === activeColor.index) {
+        return [rgba, item[1], item[2]];
       }
       return item;
     });
@@ -73,7 +74,13 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
     <div className='colorpicker'>
       <ColorPanel hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeActiveColor(value)} />
       <InputRgba hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeActiveColor(value)} />
-      <GradientPanel color={color} setColor={setColor} activeColor={activeColor} setActiveColor={setActiveColor} />
+      <GradientPanel
+        color={color}
+        setColor={setColor}
+        activeColor={activeColor}
+        setActiveColor={setActiveColor}
+        setInit={setInit}
+      />
     </div>
   );
 };

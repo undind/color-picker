@@ -1,4 +1,4 @@
-import { isValidHex, isValidRgba, rgbaToArray } from 'hex-and-rgba';
+import { rgbaToArray, isValidHex, isValidRgba } from '../../utils';
 
 export const getIndexActiveTag = (value: string) => {
   let tab = 0;
@@ -14,7 +14,7 @@ export const getIndexActiveTag = (value: string) => {
     }
     const rgba = rgbaToArray(value);
     if (rgba) {
-      if (isValidRgba(rgba[0], rgba[1], rgba[2])) {
+      if (isValidRgba([rgba[0], rgba[1], rgba[2]])) {
         tab = 0;
         return tab;
       }

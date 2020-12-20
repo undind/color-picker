@@ -1,23 +1,36 @@
-import { isValidHex, rgbaToArray } from 'hex-and-rgba';
+import { hexToRgba, rgbaToArray, isValidHex } from '../utils';
 
-import { hexToRgba } from '../utils';
-
-function* matchAll(content: any, regexp: any, group = -1) {
+function* matchAll(content: string, regexp: RegExp, group: number = -1) {
   for (let match; (match = regexp.exec(content)); ) {
     yield ~group ? match[group].trim() : match.map((v: any) => v.trim());
   }
 }
 
-const match = (content: any, regexp: any, group = -1) => {
+const match = (content: string, regexp: RegExp, group: number = -1) => {
   const match = content.match(regexp);
   return match ? (~group ? match[group] : match) : null;
 };
 
+const LINEAR_POS = [
+  { angle: '0', name: 'to top' },
+  { angle: '45', name: 'to top right' },
+  { angle: '45', name: 'to right top' },
+  { angle: '90', name: 'to right' },
+  { angle: '135', name: 'to right bottom' },
+  { angle: '135', name: 'to bottom right' },
+  { angle: '180', name: 'to bottom' },
+  { angle: '225', name: 'to left bottom' },
+  { angle: '225', name: 'to bottom left' },
+  { angle: '270', name: 'to left' },
+  { angle: '315', name: 'to top left' },
+  { angle: '315', name: 'to left top' },
+];
+
 export default (str: string) => {
   const defaultStops = {
     stops: [
-      ['rgba(0, 0, 0, 1)', 0],
-      ['rgba(183, 80, 174, 0.92)', 1],
+      ['rgba(0, 0, 0, 1)', 0, 0],
+      ['rgba(183, 80, 174, 0.92)', 1, 1],
     ],
     gradient: `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, rgba(183, 80, 174, 0.92) 100.0%)`,
     modifier: 180,
@@ -34,18 +47,16 @@ export default (str: string) => {
 
     if (rgbaArr) {
       defaultStops.stops = [
-        ['rgba(0, 0, 0, 1)', 0],
-        [`rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1)`, 1],
+        ['rgba(0, 0, 0, 1)', 0, 0],
+        [`rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1)`, 1, 1],
       ];
       defaultStops.gradient = `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1) 100.0%)`;
     }
 
     return defaultStops;
   } else {
-    // Clean gradient
     str = str.replace(';', '').replace('background-image:', '');
 
-    // Resolve gradient type and stop strings
     const [, type, content] = str.match(/^(\w+)-gradient\((.*)\)$/i) || [];
     if (!type || !content) {
       return defaultStops;
@@ -55,10 +66,11 @@ export default (str: string) => {
     const stops = [];
     let modifier = null;
 
-    // Parse raw stop strings
     let lastColor = null;
     for (let i = 0; i < rawstops.length; i++) {
       const [full, rc, rl] = rawstops[i];
+      const findF = LINEAR_POS.find((item) => item.name === full)?.angle;
+      const newFull = findF || full;
 
       const locs = rl
         .split(/\s+/g)
@@ -74,7 +86,7 @@ export default (str: string) => {
           });
         }
       } else if (!modifier) {
-        modifier = full;
+        modifier = newFull;
       }
 
       lastColor = rc || lastColor;
@@ -84,7 +96,6 @@ export default (str: string) => {
       stops[stops.length - 1].loc = 1;
     }
 
-    // Compute gaps
     for (let i = 0; i < stops.length; i++) {
       const stop = stops[i];
 
@@ -104,11 +115,13 @@ export default (str: string) => {
       }
     }
 
+    modifier = modifier || '180';
+
     return {
       gradient: str,
       type,
       modifier: modifier.match(/\d+/) !== null ? Number(modifier.match(/\d+/)[0]) : modifier,
-      stops: stops.map((stop) => [`${stop.color}`, stop.loc]),
+      stops: stops.map((stop, index) => [`${stop.color}`, stop.loc, index]),
     };
   }
 };
