@@ -1,27 +1,69 @@
-import tinycolor from 'tinycolor2';
+import tinycolor, { Instance } from 'tinycolor2';
 
-export default class Color {
+interface IInput {
+  h: number;
+  s: number;
+  v: number;
+}
+
+export interface ITinyColor {
   color: any;
   alphaValue: number;
-  blueValue: any;
-  brightnessValue: any;
-  greenValue: any;
-  hueValue: any;
-  lightnessValue: any;
-  saturationValue: any;
-  redValue: any;
+  blueValue: number;
+  brightnessValue: number;
+  greenValue: number;
+  hueValue: number;
+  lightnessValue: number;
+  saturationValue: number;
+  redValue: number;
+  isValidHex(hex: string): any;
+  initRgb(): any;
+  initHsb(): any;
+  toHexString(): any;
+  toRgbString(): any;
+  hex(): any;
+  hue(): any;
+  saturation(): any;
+  lightness(): any;
+  brightness(): any;
+  red(): any;
+  green(): any;
+  blue(): any;
+  alpha(): any;
+  RGB(): any;
+  HSB(): any;
+}
 
-  constructor(input: any) {
+export default class Color {
+  color: Instance;
+  alphaValue: number;
+  blueValue: number;
+  brightnessValue: number;
+  greenValue: number;
+  hueValue: number;
+  lightnessValue: number;
+  saturationValue: number;
+  redValue: number;
+
+  constructor(input: IInput | string) {
     this.color = tinycolor(input);
 
     this.initRgb();
     this.initHsb();
 
-    const initAlpha = (input && input.alpha) || this.color.toRgb().a;
+    const initAlpha = this.color.toRgb().a;
     this.alphaValue = Math.min(1, initAlpha) * 100;
+
+    this.blueValue = 0;
+    this.brightnessValue = 0;
+    this.greenValue = 0;
+    this.hueValue = 0;
+    this.lightnessValue = 0;
+    this.saturationValue = 0;
+    this.redValue = 0;
   }
 
-  static isValidHex(hex: any) {
+  static isValidHex(hex: string) {
     return tinycolor(hex).isValid();
   }
 

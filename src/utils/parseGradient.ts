@@ -77,7 +77,7 @@ export default (str: string) => {
 
       const locs = rl
         .split(/\s+/g)
-        .map((v: any) => match(v, /^-?(\d*(\.\d+)?)%$/, 1))
+        .map((v: string) => match(v, /^-?(\d*(\.\d+)?)%$/, 1))
         .filter(Boolean)
         .map(Number);
 

@@ -4,9 +4,9 @@ import classNames from 'classnames';
 
 interface Popups {
   children?: any;
-  activeTab?: any;
-  tabID?: any;
-  onClick?: any;
+  activeTab?: number;
+  tabID?: number;
+  onClick?: () => void;
 }
 
 export const PopupTabs: FC<Popups> = ({ children, activeTab }: Popups) => {

@@ -1,27 +1,29 @@
-import React, { FC, useState, useEffect, useRef, MutableRefObject, MouseEvent } from 'react';
+import React, { FC, useState, useEffect, useRef, MutableRefObject, MouseEvent, Dispatch, SetStateAction } from 'react';
 
 import { hexAlphaToRgba, getGradient, rgbaToArray, rgbaToHex } from '../../../utils';
+
+import { IActiveColor } from '../Gradient';
 
 type TCoords = {
   x: number;
   y: number;
-  shiftKey?: any;
-  ctrlKey?: any;
+  shiftKey?: number;
+  ctrlKey?: number;
 };
 
 interface IColor {
   gradient: string;
   type: string;
-  modifier: any;
+  modifier: string | number | undefined;
   stops: any;
 }
 
 type TProps = {
   color: IColor;
   setColor: (color: IColor) => void;
-  activeColor: any;
-  setActiveColor: any;
-  setInit: any;
+  activeColor: IActiveColor;
+  setActiveColor: Dispatch<SetStateAction<IActiveColor>>;
+  setInit: Dispatch<SetStateAction<boolean>>;
 };
 
 const RADIALS_POS = [
@@ -73,11 +75,12 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     }
   };
 
-  const onAddColorStop = (e: any) => {
+  const onAddColorStop = (e: MouseEvent) => {
     e.stopPropagation();
+    const target = e.target as HTMLElement;
 
-    if (e.target.className !== 'gradient-marker') {
-      const rect = e.target.getBoundingClientRect();
+    if (target.className !== 'gradient-marker') {
+      const rect = target.getBoundingClientRect();
       const clickPos = e.clientX - rect.left;
       const loc = Number(((100 / rect.width) * clickPos).toFixed(0)) / 100;
       const newStops = [...color.stops, [hexAlphaToRgba(activeColor), loc, color.stops.length]].sort(
@@ -269,7 +272,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     });
 
     const newStops = stops
-      .map((item: any) => {
+      .map((item: [string, number, number]) => {
         if (activeIndex === item[2]) {
           return [item[0], activeLoc, item[2]];
         }

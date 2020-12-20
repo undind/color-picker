@@ -1,5 +1,5 @@
-const stopsToString = (stops: any, mode: any) => {
-  const stopsMap = stops.map((v: any) => ({
+const stopsToString = (stops: any, mode: string): string => {
+  const stopsMap = stops.map((v: [string, number]) => ({
     color: v[0],
     location: v[1],
   }));
@@ -7,9 +7,13 @@ const stopsToString = (stops: any, mode: any) => {
   switch (mode) {
     case 'linear':
     case 'radial':
-      return stopsMap.map((v: any) => `${v.color} ${(v.location * 100).toFixed(1)}%`).join(',');
+      return stopsMap
+        .map((v: { color: string; location: number }) => `${v.color} ${(v.location * 100).toFixed(1)}%`)
+        .join(',');
     case 'conic':
-      return stopsMap.map((v: any) => `${v.color} ${(v.location * 360).toFixed(1)}deg`).join(',');
+      return stopsMap
+        .map((v: { color: string; location: number }) => `${v.color} ${(v.location * 360).toFixed(1)}deg`)
+        .join(',');
     default:
       break;
   }
@@ -17,19 +21,24 @@ const stopsToString = (stops: any, mode: any) => {
   return stopsMap;
 };
 
-export default (stops: any, mode: any, angle: any, direction: any) => {
+export default (stops: any, mode: string, angle: string | number, direction: string | number): string => {
   const linearString = stopsToString(stops, mode);
 
+  let str = '';
   switch (mode) {
     case 'linear':
-      if (angle === 'number') return `linear-gradient(${angle}deg, ${linearString})`;
-      if (angle === 'string') return `linear-gradient(${angle}, ${linearString})`;
+      if (angle === 'number') str = `linear-gradient(${angle}deg, ${linearString})`;
+      if (angle === 'string') str = `linear-gradient(${angle}, ${linearString})`;
       break;
     case 'radial':
-      return `radial-gradient(${direction}, ${linearString})`;
+      str = `radial-gradient(${direction}, ${linearString})`;
+      break;
     case 'conic':
-      return `conic-gradient(${linearString})`;
+      str = `conic-gradient(${linearString})`;
+      break;
     default:
       break;
   }
+
+  return str;
 };

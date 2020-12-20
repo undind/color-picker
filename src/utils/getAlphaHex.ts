@@ -17,5 +17,5 @@ export default (value: number) => {
 
     return alphaHEX;
   }
-  return new Error('alpha error');
+  return new Error('Alpha error');
 };

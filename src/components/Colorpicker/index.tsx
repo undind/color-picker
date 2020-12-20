@@ -8,7 +8,7 @@ import { PopupTabs, PopupTabsBody, PopupTabsHeader, PopupTabsHeaderLabel, PopupT
 import { getIndexActiveTag } from './helper';
 
 type TProps = {
-  value: any;
+  value: string;
   gradient?: boolean;
   solid?: boolean;
   onChange: (value: string) => void;

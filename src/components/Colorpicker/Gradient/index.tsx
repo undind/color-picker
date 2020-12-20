@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, ReactText } from 'react';
 
 import ColorPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
@@ -15,6 +15,13 @@ type TProps = {
   debounce?: boolean;
 };
 
+export interface IActiveColor {
+  hex: string;
+  alpha: number;
+  loc: ReactText;
+  index: ReactText;
+}
+
 const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), debounceMS = 300, debounce = true }) => {
   const lastStop = rgbaToArray(parseGradient(value).stops[parseGradient(value).stops.length - 1][0]);
   const lastStopLoc = parseGradient(value).stops[parseGradient(value).stops.length - 1][1];
@@ -22,7 +29,7 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
   const activeIdx = parseGradient(value).stops[parseGradient(value).stops.length - 1][2];
 
   const [init, setInit] = useState(true);
-  const [activeColor, setActiveColor] = useState({
+  const [activeColor, setActiveColor] = useState<IActiveColor>({
     hex: activeStop,
     alpha: Number(Math.round(lastStop[3] * 100)),
     loc: lastStopLoc,
