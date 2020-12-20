@@ -24,20 +24,14 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
   const [init, setInit] = useState(true);
   const [activeColor, setActiveColor] = useState({
     hex: activeStop,
-    alpha: Number(lastStop[3]) * 100,
+    alpha: Number(Math.round(lastStop[3] * 100)),
     loc: lastStopLoc,
     index: activeIdx,
   });
 
   const [color, setColor] = useState(parseGradient(value));
-  // useEffect(() => {
-  //   setColor({
-  //     ...color,
-  //     ...parseGradient(value),
-  //   });
-  // }, [value]);
-
   const debounceColor = useDebounce(color, debounceMS);
+
   useEffect(() => {
     if (debounce && debounceColor && init === false) {
       onChange && onChange(debounceColor.gradient);
@@ -52,7 +46,7 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
     setActiveColor({
       ...activeColor,
       hex: value.hex,
-      alpha: value.alpha,
+      alpha: Number(Math.round(value.alpha)),
     });
 
     const { stops, type, modifier } = color;

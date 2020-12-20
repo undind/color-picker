@@ -45,7 +45,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
   const { stops, gradient, type, modifier } = color;
 
   const [radialsPosition, setRadialPosition] = useState(RADIALS_POS);
-  const [activeLoc, setActiveLoc] = useState(activeColor.index);
+  const [activeLoc, setActiveLoc] = useState(activeColor.loc);
   const [activeIndex, setActiveIndex] = useState(activeColor.index);
 
   const onClickMode = () => {

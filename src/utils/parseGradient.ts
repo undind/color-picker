@@ -68,7 +68,10 @@ export default (str: string) => {
 
     let lastColor = null;
     for (let i = 0; i < rawstops.length; i++) {
-      const [full, rc, rl] = rawstops[i];
+      let [full, rc, rl] = rawstops[i];
+
+      if (rc[0] === '#' && isValidHex(rc)) rc = hexToRgba(rc, 100);
+
       const findF = LINEAR_POS.find((item) => item.name === full)?.angle;
       const newFull = findF || full;
 
@@ -90,6 +93,10 @@ export default (str: string) => {
       }
 
       lastColor = rc || lastColor;
+    }
+
+    if (!stops.length) {
+      throw new Error('Incorrect gradient value. You need to indicate the location for the colors.');
     }
 
     if (!stops[stops.length - 1].loc) {
