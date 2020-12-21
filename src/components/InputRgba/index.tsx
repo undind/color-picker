@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import './_input_rgba.scss';
 
 import { hexAlphaToRgba } from '../../utils';
-import { getAlphaValue, inputsData, handlePressEnter, getPercentLabelPosition } from './helpers';
+import { getAlphaValue, inputsData, handlePressEnter } from './helpers';
 
 interface IChange {
   hex: string;
@@ -93,7 +93,6 @@ const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
               {name === 'alpha' && (
                 <label
                   htmlFor={idInput}
-                  style={{ right: getPercentLabelPosition(String(valueInput)) }}
                   className='input_rgba-alpha-label'
                 >
                   %

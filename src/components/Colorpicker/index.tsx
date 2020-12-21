@@ -11,10 +11,19 @@ type TProps = {
   value: string;
   gradient?: boolean;
   solid?: boolean;
+  debounceMS?: number;
+  debounce?: boolean;
   onChange: (value: string) => void;
 };
 
-const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient = false, solid = true, onChange = () => ({}) }) => {
+const ColorPicker: FC<TProps> = ({
+  value = '#ffffff',
+  gradient = false,
+  solid = true,
+  debounceMS = 300,
+  debounce = true,
+  onChange = () => ({}),
+}) => {
   const [activeTab, setActiveTab] = useState(getIndexActiveTag(value));
 
   const onChangeSolid = (value: string) => {
@@ -38,10 +47,10 @@ const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient = false, solid = 
         </PopupTabsHeader>
         <PopupTabsBody>
           <PopupTabsBodyItem tabID={0}>
-            <Solid onChange={onChangeSolid} value={value} />
+            <Solid onChange={onChangeSolid} value={value} debounceMS={debounceMS} debounce={debounce} />
           </PopupTabsBodyItem>
           <PopupTabsBodyItem tabID={1}>
-            <Gradinet onChange={onChangeGradient} value={value} />
+            <Gradinet onChange={onChangeGradient} value={value} debounceMS={debounceMS} debounce={debounce} />
           </PopupTabsBodyItem>
         </PopupTabsBody>
       </PopupTabs>
@@ -51,8 +60,16 @@ const ColorPicker: FC<TProps> = ({ value = '#ffffff', gradient = false, solid = 
   return (
     <PopupTabs>
       <PopupTabsBody>
-        {solid ? <Solid onChange={onChangeSolid} value={value} /> : <Fragment />}
-        {gradient ? <Gradinet onChange={onChangeGradient} value={value} /> : <Fragment />}
+        {solid ? (
+          <Solid onChange={onChangeSolid} value={value} debounceMS={debounceMS} debounce={debounce} />
+        ) : (
+          <Fragment />
+        )}
+        {gradient ? (
+          <Gradinet onChange={onChangeGradient} value={value} debounceMS={debounceMS} debounce={debounce} />
+        ) : (
+          <Fragment />
+        )}
       </PopupTabsBody>
     </PopupTabs>
   );

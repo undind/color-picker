@@ -82,7 +82,3 @@ export const inputsData = (props: IInput) => {
     },
   ];
 };
-
-export const getPercentLabelPosition = (valueInput: string) => {
-  return String(valueInput).length === 1 ? '40px' : String(valueInput).length === 2 ? '32px' : '24px';
-};

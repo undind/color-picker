@@ -1,5 +1,4 @@
 import { isValidHex } from '../utils';
-import getAlphaHex from './getAlphaHex';
 import hexToRgba from './hexToRgba';
 
 interface IPicker {
@@ -9,9 +8,7 @@ interface IPicker {
 
 export default (picker: IPicker) => {
   if (picker) {
-    const hexAlpha = getAlphaHex(picker.alpha);
-
-    if (isValidHex(`${picker.hex}${hexAlpha}`)) {
+    if (isValidHex(`${picker.hex}`)) {
       let rgba = hexToRgba(picker.hex, picker.alpha);
 
       if (rgba) {

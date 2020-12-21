@@ -3,7 +3,8 @@ import Colorpicker from './components/Colorpicker';
 
 function App() {
   // const [color, setColor] = useState('linear-gradient(to top left, rgba(0, 0, 0) 50.00%,rgba(183, 62, 62) 50.00%)');
-  const [color, setColor] = useState('linear-gradient(to top left,#fff 0%,#000 50%)');
+  // const [color, setColor] = useState('linear-gradient(to top left,#fff 0%,#000 50%)');
+  const [color, setColor] = useState('#ffffff');
 
   const onChange = (value: string) => {
     setColor(value);
