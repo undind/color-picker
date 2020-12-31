@@ -21,7 +21,7 @@ const stopsToString = (stops: any, mode: string): string => {
   return stopsMap;
 };
 
-export default (stops: any, mode: string, angle: string | number, direction: string | number): string => {
+export default (stops: Array<any>, mode: string, angle: string | number, direction: string | number): string => {
   const linearString = stopsToString(stops, mode);
 
   let str = '';

@@ -4,29 +4,27 @@ import Board from './Board';
 import Ribbon from './Ribbon';
 import Alpha from './Alpha';
 
-import { TinyColor } from '../../../utils';
+import TinyColor, { ITinyColor } from '../../../utils/color';
 import { TPropsMain } from './types';
 
 const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
-  const colorConvert = new TinyColor(hex);
+  const colorConvert = new TinyColor(hex) as ITinyColor;
   colorConvert.alpha = alpha;
   const [state, setState] = useState({
     color: colorConvert,
     alpha,
   });
+  const [change, setChange] = useState(false);
 
   useEffect(() => {
-    const { hue, brightness, saturation } = state.color;
-    colorConvert.hue = hue;
-    colorConvert.brightness = brightness;
-    colorConvert.saturation = saturation;
-
-    setState({
-      color: colorConvert,
-      alpha,
-    });
+    if (!change) {
+      setState({
+        color: colorConvert,
+        alpha,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hex, alpha]);
 
@@ -44,7 +42,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
     });
   };
 
-  const handleChange = (color: any) => {
+  const handleChange = (color: ITinyColor) => {
     const { alpha } = state;
     color.alpha = alpha;
 
@@ -58,10 +56,15 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
   return (
     <div ref={node} className={['color-picker-panel', className].join(' ')} tabIndex={0}>
       <div className='color-picker-panel-inner'>
-        <Board rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} />
+        <Board rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} setChange={setChange} />
         <div className='color-picker-panel-wrap color-picker-panel-wrap-has-alpha'>
           <div className='color-picker-panel-wrap-ribbon'>
-            <Ribbon rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} />
+            <Ribbon
+              rootPrefixCls='color-picker-panel'
+              color={state.color}
+              onChange={handleChange}
+              setChange={setChange}
+            />
           </div>
           <div className='color-picker-panel-wrap-alpha'>
             <Alpha
@@ -69,6 +72,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
               alpha={state.alpha}
               color={state.color}
               onChange={handleAlphaChange}
+              setChange={setChange}
             />
           </div>
         </div>

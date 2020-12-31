@@ -4,7 +4,7 @@ import { TinyColor } from '../../../utils';
 
 import { TPropsComp, TCoords } from './types';
 
-const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
+const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange, setChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const removeListeners = () => {
@@ -41,6 +41,8 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
       x,
       y,
     });
+
+    setChange(true);
   };
 
   const onDragEnd = (e: any) => {
@@ -51,6 +53,8 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
       x,
       y,
     });
+
+    setChange(false);
 
     removeListeners();
   };
@@ -70,7 +74,6 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
     const hue = huePercent * 360;
 
     color.hue = hue;
-
     onChange(color);
   };
 

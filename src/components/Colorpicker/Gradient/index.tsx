@@ -6,7 +6,10 @@ import GradientPanel from '../GradientPanel';
 
 import { parseGradient, useDebounce, hexAlphaToRgba, getGradient, rgbaToArray, rgbaToHex } from '../../../utils';
 
-import { TPropsChange } from '../ColorPanel/types';
+type TPropsChange = {
+  alpha: number;
+  hex: string;
+};
 
 type TProps = {
   value?: string;
@@ -49,7 +52,7 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
   }, [debounceColor]);
 
   const onChangeActiveColor = (value: TPropsChange) => {
-    init && setInit(false);
+    setInit(false);
     setActiveColor({
       ...activeColor,
       hex: value.hex,
@@ -71,10 +74,21 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
     });
   };
 
+  const onSubmitChange = (rgba: string) => {
+    const rgbaArr = rgbaToArray(rgba);
+    const hex = rgbaToHex([rgbaArr[0], rgbaArr[1], rgbaArr[2]]);
+    onChangeActiveColor({ hex, alpha: rgbaArr[3] * 100 });
+  };
+
   return (
     <div className='colorpicker'>
-      <ColorPanel hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeActiveColor(value)} />
-      <InputRgba hex={activeColor.hex} alpha={activeColor.alpha} onChange={(value) => onChangeActiveColor(value)} />
+      <ColorPanel hex={activeColor.hex} alpha={activeColor.alpha} onChange={onChangeActiveColor} />
+      <InputRgba
+        hex={activeColor.hex}
+        alpha={activeColor.alpha}
+        onChange={(value) => setActiveColor((prev) => ({ ...prev, hex: value.hex, alpha: value.alpha }))}
+        onSubmitChange={onSubmitChange}
+      />
       <GradientPanel
         color={color}
         setColor={setColor}

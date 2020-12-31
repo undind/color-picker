@@ -1,29 +1,30 @@
+import { Dispatch, SetStateAction } from 'react';
+
+import { ITinyColor } from '../../../utils/color';
+
 export type TPropsChange = {
   alpha: number;
   hex: string;
 };
 
-export type TPropsChangeComp = {
-  alpha: number;
-  color: object;
-};
-
 export type TPropsComp = {
   rootPrefixCls?: string;
-  color: any;
+  color: ITinyColor;
   alpha?: number;
-  onChange: ({ alpha, color }: TPropsChangeComp) => void;
+  onChange: (color: ITinyColor) => void;
+  setChange: Dispatch<SetStateAction<boolean>>;
 };
 
 export type TPropsCompAlpha = {
   rootPrefixCls?: string;
-  color: any;
-  alpha?: any;
+  color: ITinyColor;
+  alpha?: number;
   onChange: (alpha: number) => void;
+  setChange: Dispatch<SetStateAction<boolean>>;
 };
 
 export type TPropsMain = {
-  alpha: any;
+  alpha: number;
   className?: string;
   hex: string;
   onChange: ({ alpha, hex }: TPropsChange) => void;

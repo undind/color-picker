@@ -1,4 +1,4 @@
-export default (type: string, stops: any, modifier: string | number | undefined) => {
+export default (type: string, stops: Array<any>, modifier: string | number | undefined) => {
   let str = '';
 
   switch (type) {

@@ -24,7 +24,7 @@ export default (color: any) => {
   if (color.indexOf('rgb') === 0) {
     color += ',1';
     // eslint-disable-next-line
-    return color.match(/[\.\d]+/g).map(function (a: string) {
+    return color.match(/[\.\d]+/g).map((a: string) => {
       return +a;
     });
   }

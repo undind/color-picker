@@ -6,7 +6,7 @@ const rgbaColor = (r: number, g: number, b: number, a: number) => {
   return `rgba(${[r, g, b, a / 100].join(',')})`;
 };
 
-const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange }) => {
+const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange, setChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const removeListeners = () => {
@@ -42,16 +42,20 @@ const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange }) =
       x,
       y,
     });
+
+    setChange(true);
   };
 
-  const onDragEnd = (e: any) => {
-    const x = e.clientX;
-    const y = e.clientY;
+  const onDragEnd = (event: any) => {
+    const x = event.clientX;
+    const y = event.clientY;
 
     pointMoveTo({
       x,
       y,
     });
+
+    setChange(false);
 
     removeListeners();
   };
@@ -87,7 +91,7 @@ const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange }) =
 
   const getPointerBackground = () => {
     const { red, green, blue } = color;
-    const alphaVal = alpha / 100;
+    const alphaVal = (alpha || 1) / 100;
 
     return `rgba(${red}, ${green}, ${blue}, ${alphaVal})`;
   };

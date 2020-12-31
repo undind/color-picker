@@ -1,4 +1,4 @@
-import tinycolor, { Instance } from 'tinycolor2';
+import tinycolor, { Instance, ColorFormats } from 'tinycolor2';
 
 interface IInput {
   h: number;
@@ -7,34 +7,6 @@ interface IInput {
 }
 
 export interface ITinyColor {
-  color: any;
-  alphaValue: number;
-  blueValue: number;
-  brightnessValue: number;
-  greenValue: number;
-  hueValue: number;
-  lightnessValue: number;
-  saturationValue: number;
-  redValue: number;
-  isValidHex(hex: string): any;
-  initRgb(): any;
-  initHsb(): any;
-  toHexString(): any;
-  toRgbString(): any;
-  hex(): any;
-  hue(): any;
-  saturation(): any;
-  lightness(): any;
-  brightness(): any;
-  red(): any;
-  green(): any;
-  blue(): any;
-  alpha(): any;
-  RGB(): any;
-  HSB(): any;
-}
-
-export default class Color {
   color: Instance;
   alphaValue: number;
   blueValue: number;
@@ -44,6 +16,34 @@ export default class Color {
   lightnessValue: number;
   saturationValue: number;
   redValue: number;
+  initRgb(): void;
+  initHsb(): void;
+  toHexString(): string;
+  toRgbString(): string;
+  toHsv(): ColorFormats.HSVA;
+  hex: string;
+  hue: number;
+  saturation: number;
+  lightness: number;
+  brightness: number;
+  red: number;
+  green: number;
+  blue: number;
+  alpha: number;
+  RGB: number[];
+  HSB: number[];
+}
+
+export default class Color {
+  color: Instance;
+  alphaValue: number;
+  hueValue: number;
+  saturationValue: number;
+  brightnessValue: number;
+  redValue: number;
+  greenValue: number;
+  blueValue: number;
+  lightnessValue: number;
 
   constructor(input: IInput | string) {
     this.color = tinycolor(input);
@@ -54,13 +54,13 @@ export default class Color {
     const initAlpha = this.color.toRgb().a;
     this.alphaValue = Math.min(1, initAlpha) * 100;
 
-    this.blueValue = 0;
-    this.brightnessValue = 0;
-    this.greenValue = 0;
-    this.hueValue = 0;
+    this.hueValue = this.color.toHsv().h;
+    this.saturationValue = this.color.toHsv().s;
+    this.brightnessValue = this.color.toHsv().v;
+    this.redValue = this.color.toRgb().r;
+    this.greenValue = this.color.toRgb().g;
+    this.blueValue = this.color.toRgb().b;
     this.lightnessValue = 0;
-    this.saturationValue = 0;
-    this.redValue = 0;
   }
 
   static isValidHex(hex: string) {
@@ -89,6 +89,10 @@ export default class Color {
 
   toRgbString = () => {
     return this.color.toRgbString();
+  };
+
+  toHsv = () => {
+    return this.color.toHsv();
   };
 
   get hex() {

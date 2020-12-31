@@ -91,10 +91,7 @@ const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
                 </label>
               )}
               {name === 'alpha' && (
-                <label
-                  htmlFor={idInput}
-                  className='input_rgba-alpha-label'
-                >
+                <label htmlFor={idInput} className='input_rgba-alpha-label'>
                   %
                 </label>
               )}

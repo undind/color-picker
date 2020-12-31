@@ -106,8 +106,9 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     return;
   };
 
-  const setActiveRadialPosition = (e: any) => {
-    const pos = e.target.getAttribute('data-pos');
+  const setActiveRadialPosition = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const pos = target.getAttribute('data-pos');
     const newRadialsPosition = radialsPosition.map((item) => {
       if (item.pos === pos) {
         return {
@@ -260,7 +261,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
   };
 
   useEffect(() => {
-    const newActive = stops.find((item: any) => item[2] === activeIndex);
+    const newActive = stops.find((item: [string, number, number]) => item[2] === activeIndex);
     const rgbaArr = rgbaToArray(newActive && newActive[0]);
     const hex = rgbaToHex([rgbaArr[0], rgbaArr[1], rgbaArr[2]]);
 
@@ -352,7 +353,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
           className='gradient-stop-preview'
           style={{
             background: `linear-gradient(to right, ${stops
-              .map((color: [string, number]) => `${color[0]} ${color[1] * 100}%`)
+              .map((color: [string, number, number]) => `${color[0]} ${color[1] * 100}%`)
               .join(', ')})`,
           }}
         />

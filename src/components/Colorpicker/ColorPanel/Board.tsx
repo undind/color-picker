@@ -6,15 +6,19 @@ import { TPropsComp, TCoords } from './types';
 const WIDTH = 200;
 const HEIGHT = 150;
 
-const Board: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
+const Board: FC<TPropsComp> = ({ rootPrefixCls, color, onChange, setChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const removeListeners = () => {
+    setChange(false);
+
     window.removeEventListener('mousemove', onBoardDrag);
     window.removeEventListener('mouseup', onBoardDragEnd);
   };
 
   const removeTouchListeners = () => {
+    setChange(false);
+
     window.addEventListener('touchmove', onBoardTouchMove);
     window.addEventListener('touchend', onBoardTouchEnd);
   };
@@ -65,11 +69,13 @@ const Board: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
 
     const x = e.targetTouches[0].clientX;
     const y = e.targetTouches[0].clientY;
-    
+
     pointMoveTo({
       x,
       y,
     });
+
+    setChange(true);
   };
 
   const onBoardTouchEnd = () => {
@@ -84,11 +90,14 @@ const Board: FC<TPropsComp> = ({ rootPrefixCls, color, onChange }) => {
       x,
       y,
     });
+
+    setChange(true);
   };
 
   const onBoardDragEnd = (e: any) => {
     const x = e.clientX;
     const y = e.clientY;
+
     pointMoveTo({
       x,
       y,

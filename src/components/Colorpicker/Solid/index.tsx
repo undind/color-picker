@@ -56,7 +56,7 @@ const ColorPickerSolid: FC<TProps> = ({
       <ColorPickerPanel
         hex={color.hex}
         alpha={color.alpha}
-        onChange={(value: TPropsChange) => onCompleteChange(value)}
+        onChange={onCompleteChange}
       />
       <InputRgba hex={color.hex} alpha={color.alpha} onChange={setColor} onSubmitChange={onChange} />
     </div>
