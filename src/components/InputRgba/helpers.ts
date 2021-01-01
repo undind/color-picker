@@ -3,6 +3,7 @@ import { KeyboardEvent, ChangeEvent } from 'react';
 interface IInput {
   alphaValue: number;
   hexValue: string;
+  showAlpha?: boolean;
   onChangeAlpha: (value: string) => void;
   onChangeHex: (value: string) => void;
 }
@@ -59,26 +60,31 @@ export const handlePressEnter = (e: KeyboardEvent, fn: () => void) => {
 };
 
 export const inputsData = (props: IInput) => {
-  return [
-    {
-      wrapClass: 'input_rgba-hex',
-      labelSymbol: true,
-      idInput: `rgba-hex${Math.random() * 10000}`,
-      valueInput: props.hexValue,
-      labelText: 'Hex',
-      labelClass: 'input_rgba-label',
-      onChangeInput: (e: ChangeEvent<HTMLInputElement>) => props.onChangeHex(onlyLatins(e.target.value)),
-      name: 'hex',
-    },
-    {
-      wrapClass: 'input_rgba-alpha',
-      labelSymbol: false,
-      idInput: `rgba-alpha${Math.random() * 10000}`,
-      valueInput: props.alphaValue,
-      labelText: 'Alpha',
-      labelClass: 'input_rgba-label',
-      onChangeInput: (e: ChangeEvent<HTMLInputElement>) => props.onChangeAlpha(onlyDigits(e.target.value)),
-      name: 'alpha',
-    },
-  ];
+  const inputHex = {
+    wrapClass: 'input_rgba-hex',
+    labelSymbol: true,
+    idInput: `rgba-hex${Math.random() * 10000}`,
+    valueInput: props.hexValue,
+    labelText: 'Hex',
+    labelClass: 'input_rgba-label',
+    onChangeInput: (e: ChangeEvent<HTMLInputElement>) => props.onChangeHex(onlyLatins(e.target.value)),
+    name: 'hex',
+  };
+
+  const inputAlpha = {
+    wrapClass: 'input_rgba-alpha',
+    labelSymbol: false,
+    idInput: `rgba-alpha${Math.random() * 10000}`,
+    valueInput: props.alphaValue,
+    labelText: 'Alpha',
+    labelClass: 'input_rgba-label',
+    onChangeInput: (e: ChangeEvent<HTMLInputElement>) => props.onChangeAlpha(onlyDigits(e.target.value)),
+    name: 'alpha',
+  };
+
+  if (props.showAlpha === false) {
+    return [inputHex];
+  }
+
+  return [inputHex, inputAlpha];
 };

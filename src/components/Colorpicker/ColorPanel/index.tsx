@@ -7,7 +7,7 @@ import Alpha from './Alpha';
 import TinyColor, { ITinyColor } from '../../../utils/color';
 import { TPropsMain } from './types';
 
-const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
+const Panel: FC<TPropsMain> = ({ alpha, className, hex, showAlpha, onChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const colorConvert = new TinyColor(hex) as ITinyColor;
@@ -57,7 +57,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
     <div ref={node} className={['color-picker-panel', className].join(' ')} tabIndex={0}>
       <div className='color-picker-panel-inner'>
         <Board rootPrefixCls='color-picker-panel' color={state.color} onChange={handleChange} setChange={setChange} />
-        <div className='color-picker-panel-wrap color-picker-panel-wrap-has-alpha'>
+        <div className={`color-picker-panel-wrap${showAlpha ? ' color-picker-panel-wrap-has-alpha' : ''}`}>
           <div className='color-picker-panel-wrap-ribbon'>
             <Ribbon
               rootPrefixCls='color-picker-panel'
@@ -66,15 +66,17 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, onChange }) => {
               setChange={setChange}
             />
           </div>
-          <div className='color-picker-panel-wrap-alpha'>
-            <Alpha
-              rootPrefixCls='color-picker-panel'
-              alpha={state.alpha}
-              color={state.color}
-              onChange={handleAlphaChange}
-              setChange={setChange}
-            />
-          </div>
+          {showAlpha && (
+            <div className='color-picker-panel-wrap-alpha'>
+              <Alpha
+                rootPrefixCls='color-picker-panel'
+                alpha={state.alpha}
+                color={state.color}
+                onChange={handleAlphaChange}
+                setChange={setChange}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ type TProps = {
   solid?: boolean;
   debounceMS?: number;
   debounce?: boolean;
+  showAlpha?: boolean;
   onChange: (value: string) => void;
 };
 
@@ -22,6 +23,7 @@ const ColorPicker: FC<TProps> = ({
   solid = true,
   debounceMS = 300,
   debounce = true,
+  showAlpha = true,
   onChange = () => ({}),
 }) => {
   const [activeTab, setActiveTab] = useState(getIndexActiveTag(value));
@@ -47,10 +49,22 @@ const ColorPicker: FC<TProps> = ({
         </PopupTabsHeader>
         <PopupTabsBody>
           <PopupTabsBodyItem tabID={0}>
-            <Solid onChange={onChangeSolid} value={value} debounceMS={debounceMS} debounce={debounce} />
+            <Solid
+              onChange={onChangeSolid}
+              value={value}
+              debounceMS={debounceMS}
+              debounce={debounce}
+              showAlpha={showAlpha}
+            />
           </PopupTabsBodyItem>
           <PopupTabsBodyItem tabID={1}>
-            <Gradinet onChange={onChangeGradient} value={value} debounceMS={debounceMS} debounce={debounce} />
+            <Gradinet
+              onChange={onChangeGradient}
+              value={value}
+              debounceMS={debounceMS}
+              debounce={debounce}
+              showAlpha={showAlpha}
+            />
           </PopupTabsBodyItem>
         </PopupTabsBody>
       </PopupTabs>
@@ -61,12 +75,24 @@ const ColorPicker: FC<TProps> = ({
     <PopupTabs>
       <PopupTabsBody>
         {solid ? (
-          <Solid onChange={onChangeSolid} value={value} debounceMS={debounceMS} debounce={debounce} />
+          <Solid
+            onChange={onChangeSolid}
+            value={value}
+            debounceMS={debounceMS}
+            debounce={debounce}
+            showAlpha={showAlpha}
+          />
         ) : (
           <Fragment />
         )}
         {gradient ? (
-          <Gradinet onChange={onChangeGradient} value={value} debounceMS={debounceMS} debounce={debounce} />
+          <Gradinet
+            onChange={onChangeGradient}
+            value={value}
+            debounceMS={debounceMS}
+            debounce={debounce}
+            showAlpha={showAlpha}
+          />
         ) : (
           <Fragment />
         )}

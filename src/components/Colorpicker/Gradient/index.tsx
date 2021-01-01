@@ -16,6 +16,7 @@ type TProps = {
   onChange?: (value: string) => void;
   debounceMS?: number;
   debounce?: boolean;
+  showAlpha?: boolean;
 };
 
 export interface IActiveColor {
@@ -25,7 +26,13 @@ export interface IActiveColor {
   index: ReactText;
 }
 
-const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), debounceMS = 300, debounce = true }) => {
+const Gradient: FC<TProps> = ({
+  value = '#ffffff',
+  onChange = () => ({}),
+  debounceMS = 300,
+  debounce = true,
+  showAlpha = true,
+}) => {
   const lastStop = rgbaToArray(parseGradient(value).stops[parseGradient(value).stops.length - 1][0]);
   const lastStopLoc = parseGradient(value).stops[parseGradient(value).stops.length - 1][1];
   const activeStop = rgbaToHex([lastStop[0], lastStop[1], lastStop[2]]);
@@ -82,10 +89,16 @@ const Gradient: FC<TProps> = ({ value = '#ffffff', onChange = () => ({}), deboun
 
   return (
     <div className='colorpicker'>
-      <ColorPanel hex={activeColor.hex} alpha={activeColor.alpha} onChange={onChangeActiveColor} />
+      <ColorPanel
+        hex={activeColor.hex}
+        alpha={activeColor.alpha}
+        showAlpha={showAlpha}
+        onChange={onChangeActiveColor}
+      />
       <InputRgba
         hex={activeColor.hex}
         alpha={activeColor.alpha}
+        showAlpha={showAlpha}
         onChange={(value) => setActiveColor((prev) => ({ ...prev, hex: value.hex, alpha: value.alpha }))}
         onSubmitChange={onSubmitChange}
       />

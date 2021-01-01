@@ -12,11 +12,12 @@ interface IChange {
 type TProps = {
   hex: string;
   alpha: number;
+  showAlpha?: boolean;
   onChange: ({ hex, alpha }: IChange) => void;
   onSubmitChange?: (rgba: string) => void;
 };
 
-const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
+const InputRgba: FC<TProps> = ({ hex, alpha, showAlpha, onChange, onSubmitChange }) => {
   const [color, setColor] = useState({
     alpha,
     hex,
@@ -76,6 +77,7 @@ const InputRgba: FC<TProps> = ({ hex, alpha, onChange, onSubmitChange }) => {
     hexValue: color.hex.replace(/#/i, ''),
     onChangeAlpha,
     onChangeHex,
+    showAlpha,
   };
 
   return (

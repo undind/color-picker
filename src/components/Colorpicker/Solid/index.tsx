@@ -15,6 +15,7 @@ type TProps = {
   onChange?: (value: string) => void;
   debounceMS?: number;
   debounce?: boolean;
+  showAlpha?: boolean;
 };
 
 const ColorPickerSolid: FC<TProps> = ({
@@ -22,6 +23,7 @@ const ColorPickerSolid: FC<TProps> = ({
   onChange = () => ({}),
   debounceMS = 300,
   debounce = true,
+  showAlpha = true,
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
 
@@ -53,12 +55,14 @@ const ColorPickerSolid: FC<TProps> = ({
 
   return (
     <div ref={node} className='colorpicker'>
-      <ColorPickerPanel
+      <ColorPickerPanel hex={color.hex} alpha={color.alpha} showAlpha={showAlpha} onChange={onCompleteChange} />
+      <InputRgba
         hex={color.hex}
         alpha={color.alpha}
-        onChange={onCompleteChange}
+        showAlpha={showAlpha}
+        onChange={setColor}
+        onSubmitChange={onChange}
       />
-      <InputRgba hex={color.hex} alpha={color.alpha} onChange={setColor} onSubmitChange={onChange} />
     </div>
   );
 };
