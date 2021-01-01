@@ -51,6 +51,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
   const [activeIndex, setActiveIndex] = useState(activeColor.index);
 
   const onClickMode = () => {
+    setInit(false);
     switch (type) {
       case 'linear':
         const activePos = radialsPosition.find((item) => item.active);
@@ -76,6 +77,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
   };
 
   const onAddColorStop = (e: MouseEvent) => {
+    setInit(false);
     e.stopPropagation();
     const target = e.target as HTMLElement;
 
@@ -107,6 +109,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
   };
 
   const setActiveRadialPosition = (e: MouseEvent) => {
+    setInit(false);
     const target = e.target as HTMLElement;
     const pos = target.getAttribute('data-pos');
     const newRadialsPosition = radialsPosition.map((item) => {
