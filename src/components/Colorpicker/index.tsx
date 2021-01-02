@@ -7,17 +7,9 @@ import Solid from './Solid';
 import { PopupTabs, PopupTabsBody, PopupTabsHeader, PopupTabsHeaderLabel, PopupTabsBodyItem } from '../PopupTab';
 import { getIndexActiveTag } from './helper';
 
-type TProps = {
-  value: string;
-  gradient?: boolean;
-  solid?: boolean;
-  debounceMS?: number;
-  debounce?: boolean;
-  showAlpha?: boolean;
-  onChange: (value: string) => void;
-};
+import { IPropsMain } from './types';
 
-const ColorPicker: FC<TProps> = ({
+const ColorPicker: FC<IPropsMain> = ({
   value = '#ffffff',
   gradient = false,
   solid = true,

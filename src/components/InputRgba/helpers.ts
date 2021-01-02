@@ -8,13 +8,6 @@ interface IInput {
   onChangeHex: (value: string) => void;
 }
 
-export const validateHex = (hex: string) => {
-  if (hex && hex.length) {
-    const validHEX = hex.replace('#', '');
-    return validHEX;
-  }
-};
-
 export const getAlphaValue = (value: string) => {
   value.replace(/%/i, '');
   if (value[0] === '0' && value.length > 1) {
@@ -25,23 +18,6 @@ export const getAlphaValue = (value: string) => {
     return value || 0;
   }
   return parseInt(value);
-};
-
-export const getHexValue = (color: string) => {
-  const baseColor = 'ffffff';
-  if (!color || typeof color !== 'string') return baseColor;
-
-  if (color.substring(0, 1) === '#') color = color.substring(1);
-
-  switch (color.length) {
-    // case 3: if (/^[0-9A-F]{3}$/i.test(color)) return color; break;
-    case 6:
-      if (/^[0-9A-F]{6}$/i.test(color)) return color;
-      break;
-    // case 8: if (/^[0-9A-F]{8}$/i.test(color)) return color; break;
-    default:
-      return baseColor;
-  }
 };
 
 export const onlyDigits = (string: string) => {

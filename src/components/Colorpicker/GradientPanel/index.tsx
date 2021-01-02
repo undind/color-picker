@@ -1,30 +1,10 @@
-import React, { FC, useState, useEffect, useRef, MutableRefObject, MouseEvent, Dispatch, SetStateAction } from 'react';
+import React, { FC, useState, useEffect, useRef, MutableRefObject, MouseEvent } from 'react';
 
-import { hexAlphaToRgba, getGradient, rgbaToArray, rgbaToHex } from '../../../utils';
+import Markers from './Markers';
 
-import { IActiveColor } from '../Gradient';
+import { getGradient, rgbaToArray, rgbaToHex } from '../../../utils';
 
-type TCoords = {
-  x: number;
-  y: number;
-  shiftKey?: number;
-  ctrlKey?: number;
-};
-
-interface IColor {
-  gradient: string;
-  type: string;
-  modifier: string | number | undefined;
-  stops: any;
-}
-
-type TProps = {
-  color: IColor;
-  setColor: (color: IColor) => void;
-  activeColor: IActiveColor;
-  setActiveColor: Dispatch<SetStateAction<IActiveColor>>;
-  setInit: Dispatch<SetStateAction<boolean>>;
-};
+import { IPropsPanel, TCoords } from './types';
 
 const RADIALS_POS = [
   { pos: 'tl', css: 'circle at left top', active: false },
@@ -40,8 +20,7 @@ const RADIALS_POS = [
   { pos: 'br', css: 'circle at right bottom', active: false },
 ];
 
-const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColor, setInit }) => {
-  const node = useRef() as MutableRefObject<HTMLDivElement>;
+const GradientPanel: FC<IPropsPanel> = ({ color, setColor, activeColor, setActiveColor, setInit }) => {
   const angleNode = useRef() as MutableRefObject<HTMLDivElement>;
 
   const { stops, gradient, type, modifier } = color;
@@ -76,38 +55,6 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     }
   };
 
-  const onAddColorStop = (e: MouseEvent) => {
-    setInit(false);
-    e.stopPropagation();
-    const target = e.target as HTMLElement;
-
-    if (target.className !== 'gradient-marker') {
-      const rect = target.getBoundingClientRect();
-      const clickPos = e.clientX - rect.left;
-      const loc = Number(((100 / rect.width) * clickPos).toFixed(0)) / 100;
-      const newStops = [...color.stops, [hexAlphaToRgba(activeColor), loc, color.stops.length]].sort(
-        (a: [string, number], b: [string, number]) => a[1] - b[1]
-      );
-
-      setColor({
-        ...color,
-        gradient: `${getGradient(type, newStops, modifier)}`,
-        stops: newStops,
-      });
-
-      setActiveColor({
-        ...activeColor,
-        loc: loc,
-        index: color.stops.length,
-      });
-
-      setActiveLoc(loc);
-      setActiveIndex(color.stops.length);
-    }
-
-    return;
-  };
-
   const setActiveRadialPosition = (e: MouseEvent) => {
     setInit(false);
     const target = e.target as HTMLElement;
@@ -136,66 +83,12 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     });
   };
 
-  const onMouseDown = (e: MouseEvent) => {
-    e.preventDefault();
-
-    setInit(false);
-
-    if (e.button !== 0) return;
-
-    const x = e.clientX;
-    const y = e.clientY;
-
-    pointMoveTo({
-      x,
-      y,
-    });
-
-    window.addEventListener('mousemove', onDrag);
-    window.addEventListener('mouseup', onDragEnd);
-  };
-
-  const onDrag = (e: any) => {
-    const x = e.clientX;
-    const y = e.clientY;
-
-    pointMoveTo({
-      x,
-      y,
-    });
-  };
-
-  const onDragEnd = (e: any) => {
-    const x = e.clientX;
-    const y = e.clientY;
-
-    pointMoveTo({
-      x,
-      y,
-    });
-
-    removeListeners();
-  };
-
-  const pointMoveTo = (coords: TCoords) => {
-    const rect = node && node.current.getBoundingClientRect();
-    const width = rect.width;
-    let pos = coords.x - rect.left;
-    pos = Math.max(0, pos);
-    pos = Math.min(pos, width);
-
-    let location = Number(((100 / rect.width) * pos).toFixed(0)) / 100;
-    setActiveLoc(location);
-  };
-
   const removeListeners = () => {
     window.removeEventListener('mousemove', onDrag);
     window.removeEventListener('mouseup', onDragEnd);
-    window.removeEventListener('mousemove', onDragAngle);
-    window.removeEventListener('mouseup', onDragAngleEnd);
   };
 
-  const onMoudeDownAngle = (e: any) => {
+  const onMouseDown = (e: any) => {
     e.preventDefault();
 
     setInit(false);
@@ -208,25 +101,25 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     const ctrlKey = e.ctrlKey * 2;
 
     if (e.target.className !== 'gradient-mode' && type === 'linear') {
-      pointMoveToAngle({
+      pointMoveTo({
         x,
         y,
         shiftKey,
         ctrlKey,
       });
 
-      window.addEventListener('mousemove', onDragAngle);
-      window.addEventListener('mouseup', onDragAngleEnd);
+      window.addEventListener('mousemove', onDrag);
+      window.addEventListener('mouseup', onDragEnd);
     }
   };
 
-  const onDragAngle = (e: any) => {
+  const onDrag = (e: any) => {
     const x = e.clientX;
     const y = e.clientY;
     const shiftKey = e.shiftKey;
     const ctrlKey = e.ctrlKey * 2;
 
-    pointMoveToAngle({
+    pointMoveTo({
       x,
       y,
       shiftKey,
@@ -234,13 +127,13 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     });
   };
 
-  const onDragAngleEnd = (e: any) => {
+  const onDragEnd = (e: any) => {
     const x = e.clientX;
     const y = e.clientY;
     const shiftKey = e.shiftKey;
     const ctrlKey = e.ctrlKey * 2;
 
-    pointMoveToAngle({
+    pointMoveTo({
       x,
       y,
       shiftKey,
@@ -250,7 +143,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
     removeListeners();
   };
 
-  const pointMoveToAngle = (coords: TCoords) => {
+  const pointMoveTo = (coords: TCoords) => {
     const rect = angleNode && angleNode.current.getBoundingClientRect();
 
     const boxcx = rect.left + rect.width / 2;
@@ -324,7 +217,7 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
 
   return (
     <div className='gradient-interaction'>
-      <div className='gradient-result' onMouseDown={(e) => onMoudeDownAngle(e)} style={{ background: gradient }}>
+      <div className='gradient-result' onMouseDown={(e) => onMouseDown(e)} style={{ background: gradient }}>
         <div data-mode={type} className='gradient-mode' onClick={() => onClickMode()}></div>
         <div
           className='gradient-angle'
@@ -351,34 +244,15 @@ const GradientPanel: FC<TProps> = ({ color, setColor, activeColor, setActiveColo
           })}
         </div>
       </div>
-      <div className='gradient-stops' onClick={(e) => onAddColorStop(e)} ref={node}>
-        <div
-          className='gradient-stop-preview'
-          style={{
-            background: `linear-gradient(to right, ${stops
-              .map((color: [string, number, number]) => `${color[0]} ${color[1] * 100}%`)
-              .join(', ')})`,
-          }}
-        />
-        <div className='gradient-stop-marker'>
-          {stops.map((color: [string, number, number]) => {
-            const position = color[1] * 100;
-            const rgba = color[0];
-
-            return (
-              <div
-                key={rgba + position + Math.random() * 100}
-                className='gradient-marker'
-                style={{ left: position + '%', color: rgba }}
-                onMouseDown={(e) => {
-                  setActiveIndex(color[2]);
-                  onMouseDown(e);
-                }}
-              />
-            );
-          })}
-        </div>
-      </div>
+      <Markers
+        color={color}
+        setColor={setColor}
+        activeColor={activeColor}
+        setActiveColor={setActiveColor}
+        setInit={setInit}
+        setActiveIndex={setActiveIndex}
+        setActiveLoc={setActiveLoc}
+      />
     </div>
   );
 };

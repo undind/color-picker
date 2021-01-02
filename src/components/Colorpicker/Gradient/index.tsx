@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, ReactText } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import ColorPanel from '../ColorPanel';
 import InputRgba from '../../InputRgba';
@@ -6,27 +6,9 @@ import GradientPanel from '../GradientPanel';
 
 import { parseGradient, useDebounce, hexAlphaToRgba, getGradient, rgbaToArray, rgbaToHex } from '../../../utils';
 
-type TPropsChange = {
-  alpha: number;
-  hex: string;
-};
+import { IPropsComp, TPropsChange, IActiveColor } from '../types';
 
-type TProps = {
-  value?: string;
-  onChange?: (value: string) => void;
-  debounceMS?: number;
-  debounce?: boolean;
-  showAlpha?: boolean;
-};
-
-export interface IActiveColor {
-  hex: string;
-  alpha: number;
-  loc: ReactText;
-  index: ReactText;
-}
-
-const Gradient: FC<TProps> = ({
+const Gradient: FC<IPropsComp> = ({
   value = '#ffffff',
   onChange = () => ({}),
   debounceMS = 300,

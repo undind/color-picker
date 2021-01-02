@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import './_popup_tabs.scss';
-import classNames from 'classnames';
 
 interface Popups {
   children?: any;
@@ -22,9 +21,7 @@ export const PopupTabs: FC<Popups> = ({ children, activeTab }: Popups) => {
 export const PopupTabsHeaderLabel: FC<Popups> = ({ children, activeTab, tabID, onClick }: Popups) => {
   return (
     <div
-      className={classNames('popup_tabs-header-label', {
-        'popup_tabs-header-label-active': activeTab === tabID,
-      })}
+      className={`popup_tabs-header-label${activeTab === tabID ? ' popup_tabs-header-label-active' : ''}`}
       onClick={onClick}
     >
       {children}

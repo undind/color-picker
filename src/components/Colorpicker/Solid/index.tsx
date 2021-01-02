@@ -5,20 +5,9 @@ import InputRgba from '../../InputRgba';
 
 import { getHexAlpha, hexAlphaToRgba, useDebounce } from '../../../utils';
 
-type TPropsChange = {
-  alpha: number;
-  hex: string;
-};
+import { IPropsComp, TPropsChange } from '../types';
 
-type TProps = {
-  value?: string;
-  onChange?: (value: string) => void;
-  debounceMS?: number;
-  debounce?: boolean;
-  showAlpha?: boolean;
-};
-
-const ColorPickerSolid: FC<TProps> = ({
+const ColorPickerSolid: FC<IPropsComp> = ({
   value = '#ffffff',
   onChange = () => ({}),
   debounceMS = 300,
