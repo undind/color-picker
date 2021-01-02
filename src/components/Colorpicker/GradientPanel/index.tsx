@@ -163,7 +163,7 @@ const GradientPanel: FC<IPropsPanel> = ({ color, setColor, activeColor, setActiv
 
     setActiveColor({
       hex,
-      alpha: Number(rgbaArr[3].toFixed(0)) * 100,
+      alpha: Number(rgbaArr[3]) * 100,
       loc: newActive[1],
       index: activeIndex,
     });

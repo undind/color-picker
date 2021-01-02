@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Colorpicker from './components/Colorpicker';
 
 function App() {
-  // const [color, setColor] = useState('linear-gradient(180deg, rgba(0, 0, 0, 1) 0.00%,rgba(35, 64, 202, 1) 100.00%)');
-  const [color, setColor] = useState('linear-gradient(to top left,#fff 0%,#000 50%,#000 70%,#000 100%)');
-  // const [color, setColor] = useState('#1d0c93');
+  const [color, setColor] = useState('radial-gradient(circle at right, rgb(255, 255, 255) 0.00%,rgb(0, 0, 0) 50.00%,red 100.00%)');
+  // const [color, setColor] = useState('linear-gradient(90deg, #fff 0.00%, #000 50.00%, #000 70.00%, red 100.00%)');
+  // const [color, setColor] = useState('hsla(0, 100%, 50%, 0.5)');
 
   const onChange = (value: string) => {
     setColor(value);

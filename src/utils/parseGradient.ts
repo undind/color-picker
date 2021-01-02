@@ -1,4 +1,4 @@
-import { hexToRgba, rgbaToArray, isValidHex } from '../utils';
+import tinycolor from 'tinycolor2';
 
 function* matchAll(content: string, regexp: RegExp, group: number = -1) {
   for (let match; (match = regexp.exec(content)); ) {
@@ -27,6 +27,8 @@ const LINEAR_POS = [
 ];
 
 export default (str: string) => {
+  const tinyColor = tinycolor(str);
+
   const defaultStops = {
     stops: [
       ['rgba(0, 0, 0, 1)', 0, 0],
@@ -41,16 +43,15 @@ export default (str: string) => {
     return defaultStops;
   }
 
-  if (isValidHex(str)) {
-    const rgbaStr = hexToRgba(str, 100);
-    const rgbaArr = rgbaToArray(rgbaStr);
+  if (tinyColor.isValid() && !str.trim().startsWith('radial-gradient')) {
+    const rgbaStr = tinyColor.toRgbString();
 
-    if (rgbaArr) {
+    if (rgbaStr) {
       defaultStops.stops = [
         ['rgba(0, 0, 0, 1)', 0, 0],
-        [`rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1)`, 1, 1],
+        [rgbaStr, 1, 1],
       ];
-      defaultStops.gradient = `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, rgba(${rgbaArr[0]}, ${rgbaArr[1]}, ${rgbaArr[2]}, 1) 100.0%)`;
+      defaultStops.gradient = `linear-gradient(180deg, rgba(6, 6, 6, 1) 0.0%, ${rgbaStr} 100.0%)`;
     }
 
     return defaultStops;
@@ -70,16 +71,23 @@ export default (str: string) => {
     for (let i = 0; i < rawstops.length; i++) {
       let [full, rc, rl] = rawstops[i];
 
-      if (rc[0] === '#' && isValidHex(rc)) rc = hexToRgba(rc, 100);
-
-      const findF = LINEAR_POS.find((item) => item.name === full)?.angle;
-      const newFull = findF || full;
-
       const locs = rl
         .split(/\s+/g)
         .map((v: string) => match(v, /^-?(\d*(\.\d+)?)%$/, 1))
         .filter(Boolean)
         .map(Number);
+
+      const tinyColor = tinycolor(rc);
+      const isValidValue = tinyColor.isValid();
+
+      const findF = LINEAR_POS.find((item) => item.name === full)?.angle;
+      if (isValidValue && !findF && !locs.length) {
+        throw new Error('Incorrect gradient value. You need to indicate the location for the colors.');
+      }
+
+      if (isValidValue) rc = tinyColor.toRgbString();
+
+      const newFull = findF || full;
 
       if (locs.length) {
         for (const loc of locs) {
@@ -93,10 +101,6 @@ export default (str: string) => {
       }
 
       lastColor = rc || lastColor;
-    }
-
-    if (!stops.length) {
-      throw new Error('Incorrect gradient value. You need to indicate the location for the colors.');
     }
 
     if (!stops[stops.length - 1].loc) {

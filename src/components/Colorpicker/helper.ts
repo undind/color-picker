@@ -1,14 +1,16 @@
-import { rgbaToArray, isValidHex, isValidRgba } from '../../utils';
+import tinycolor from 'tinycolor2';
+import { rgbaToArray, isValidRgba } from '../../utils';
 
 export const getIndexActiveTag = (value: string) => {
   let tab = 0;
+  let validValue = tinycolor(value).isValid();
 
   if (value) {
     if (value === 'transparent') {
       tab = 0;
       return tab;
     }
-    if (isValidHex(value)) {
+    if (validValue && !value.trim().startsWith('radial-gradient')) {
       tab = 0;
       return tab;
     }
