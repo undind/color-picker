@@ -84,7 +84,7 @@ const InputRgba: FC<TProps> = ({ hex, alpha, showAlpha, onChange, onSubmitChange
     <div className='input_rgba'>
       <div className='input_rgba-wrap'>
         {inputsData(inputsProps).map((item, index) => {
-          const { wrapClass, labelSymbol, idInput, valueInput, labelText, labelClass, onChangeInput, name } = item;
+          const { wrapClass, labelSymbol, idInput, valueInput, labelText, labelArea, labelClass, onChangeInput, name } = item;
           return (
             <div className={wrapClass} key={index}>
               {labelSymbol && (
@@ -101,6 +101,7 @@ const InputRgba: FC<TProps> = ({ hex, alpha, showAlpha, onChange, onSubmitChange
                 type='text'
                 id={idInput}
                 value={valueInput}
+                aria-label={labelArea}
                 onChange={(e) => onChangeInput(e)}
                 onBlur={onHandleSubmit}
                 onKeyPress={(e) => handlePressEnter(e, onHandleSubmit)}
