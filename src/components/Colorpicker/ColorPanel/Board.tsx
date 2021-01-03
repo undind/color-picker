@@ -63,10 +63,6 @@ const Board: FC<TPropsComp> = ({ rootPrefixCls, color, colorBoardHeight, onChang
   };
 
   const onBoardTouchMove = (e: any) => {
-    if (e.preventDefault) {
-      e.preventDefault();
-    }
-
     const x = e.targetTouches[0].clientX;
     const y = e.targetTouches[0].clientY;
 
@@ -74,8 +70,6 @@ const Board: FC<TPropsComp> = ({ rootPrefixCls, color, colorBoardHeight, onChang
       x,
       y,
     });
-
-    setChange(true);
   };
 
   const onBoardTouchEnd = () => {
@@ -90,8 +84,6 @@ const Board: FC<TPropsComp> = ({ rootPrefixCls, color, colorBoardHeight, onChang
       x,
       y,
     });
-
-    setChange(true);
   };
 
   const onBoardDragEnd = (e: any) => {

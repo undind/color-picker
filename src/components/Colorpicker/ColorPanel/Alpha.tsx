@@ -42,8 +42,6 @@ const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange, set
       x,
       y,
     });
-
-    setChange(true);
   };
 
   const onDragEnd = (event: any) => {

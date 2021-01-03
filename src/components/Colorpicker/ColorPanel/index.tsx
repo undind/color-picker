@@ -29,6 +29,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, colorBoardHeight, showAl
   }, [hex, alpha]);
 
   const handleAlphaChange = (alpha: number) => {
+    setChange(true);
     const { color } = state;
     color.alpha = alpha;
 
@@ -43,6 +44,7 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, colorBoardHeight, showAl
   };
 
   const handleChange = (color: ITinyColor) => {
+    setChange(true);
     const { alpha } = state;
     color.alpha = alpha;
 
@@ -56,7 +58,13 @@ const Panel: FC<TPropsMain> = ({ alpha, className, hex, colorBoardHeight, showAl
   return (
     <div ref={node} className={['color-picker-panel', className].join(' ')} tabIndex={0}>
       <div className='color-picker-panel-inner'>
-        <Board rootPrefixCls='color-picker-panel' color={state.color} colorBoardHeight={colorBoardHeight} onChange={handleChange} setChange={setChange} />
+        <Board
+          rootPrefixCls='color-picker-panel'
+          color={state.color}
+          colorBoardHeight={colorBoardHeight}
+          onChange={handleChange}
+          setChange={setChange}
+        />
         <div className={`color-picker-panel-wrap${showAlpha ? ' color-picker-panel-wrap-has-alpha' : ''}`}>
           <div className='color-picker-panel-wrap-ribbon'>
             <Ribbon

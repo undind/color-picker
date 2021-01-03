@@ -41,8 +41,6 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange, setChange }) =
       x,
       y,
     });
-
-    setChange(true);
   };
 
   const onDragEnd = (e: any) => {
