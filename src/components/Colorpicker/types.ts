@@ -6,11 +6,13 @@ export interface IPropsComp {
   debounceMS?: number;
   debounce?: boolean;
   showAlpha?: boolean;
+  colorBoardHeight?: number;
 }
 
 export interface IPropsMain extends IPropsComp {
   gradient?: boolean;
   solid?: boolean;
+  popupWidth?: number;
 }
 
 export type TPropsChange = {

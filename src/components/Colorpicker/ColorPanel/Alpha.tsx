@@ -99,7 +99,7 @@ const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange, set
   const prefixCls = getPrefixCls();
 
   return (
-    <div className={prefixCls} ref={node}>
+    <div className={prefixCls} ref={node} onMouseDown={onMouseDown}>
       <div className={`${prefixCls}-bg`} style={{ background: getBackground() }} />
       <span
         style={{
@@ -107,7 +107,7 @@ const Alpha: FC<TPropsCompAlpha> = ({ rootPrefixCls, color, alpha, onChange, set
           backgroundColor: getPointerBackground(),
         }}
       />
-      <div className={`${prefixCls}-handler`} onMouseDown={onMouseDown} />
+      <div className={`${prefixCls}-handler`} />
     </div>
   );
 };

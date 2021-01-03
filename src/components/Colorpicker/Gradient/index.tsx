@@ -14,6 +14,7 @@ const Gradient: FC<IPropsComp> = ({
   debounceMS = 300,
   debounce = true,
   showAlpha = true,
+  colorBoardHeight = 120,
 }) => {
   const lastStop = rgbaToArray(parseGradient(value).stops[parseGradient(value).stops.length - 1][0]);
   const lastStopLoc = parseGradient(value).stops[parseGradient(value).stops.length - 1][1];
@@ -76,6 +77,7 @@ const Gradient: FC<IPropsComp> = ({
         alpha={activeColor.alpha}
         showAlpha={showAlpha}
         onChange={onChangeActiveColor}
+        colorBoardHeight={colorBoardHeight}
       />
       <InputRgba
         hex={activeColor.hex}

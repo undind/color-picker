@@ -5,17 +5,22 @@ interface Popups {
   children?: any;
   activeTab?: number;
   tabID?: number;
+  popupWidth?: number;
   onClick?: () => void;
 }
 
-export const PopupTabs: FC<Popups> = ({ children, activeTab }: Popups) => {
+export const PopupTabs: FC<Popups> = ({ children, activeTab, popupWidth }: Popups) => {
   const childrenContact = React.Children.map(children, (child) => {
     return React.cloneElement(child, {
       activeTab,
     });
   });
 
-  return <div className='popup_tabs'>{childrenContact}</div>;
+  return (
+    <div className='popup_tabs' style={{ width: `${popupWidth}px`, minWidth: `${popupWidth}px` }}>
+      {childrenContact}
+    </div>
+  );
 };
 
 export const PopupTabsHeaderLabel: FC<Popups> = ({ children, activeTab, tabID, onClick }: Popups) => {

@@ -6,7 +6,7 @@ import { TPropsComp, TCoords } from './types';
 const WIDTH = 200;
 const HEIGHT = 150;
 
-const Board: FC<TPropsComp> = ({ rootPrefixCls, color, onChange, setChange }) => {
+const Board: FC<TPropsComp> = ({ rootPrefixCls, color, colorBoardHeight, onChange, setChange }) => {
   const node = useRef() as MutableRefObject<HTMLDivElement>;
 
   const removeListeners = () => {
@@ -143,7 +143,10 @@ const Board: FC<TPropsComp> = ({ rootPrefixCls, color, onChange, setChange }) =>
 
   return (
     <div className={prefixCls} ref={node}>
-      <div className={`${prefixCls}-hsv`} style={{ backgroundColor: hueColor }}>
+      <div
+        className={`${prefixCls}-hsv`}
+        style={{ backgroundColor: hueColor, height: `${colorBoardHeight}px`, minHeight: `${colorBoardHeight}px` }}
+      >
         <div className={`${prefixCls}-value`} />
         <div className={`${prefixCls}-saturation`} />
       </div>

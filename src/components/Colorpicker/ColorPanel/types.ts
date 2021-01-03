@@ -11,6 +11,7 @@ export type TPropsComp = {
   rootPrefixCls?: string;
   color: ITinyColor;
   alpha?: number;
+  colorBoardHeight?: number;
   onChange: (color: ITinyColor) => void;
   setChange: Dispatch<SetStateAction<boolean>>;
 };
@@ -29,6 +30,7 @@ export type TPropsMain = {
   className?: string;
   hex: string;
   showAlpha?: boolean;
+  colorBoardHeight?: number;
   onChange: ({ alpha, hex }: TPropsChange) => void;
 };
 

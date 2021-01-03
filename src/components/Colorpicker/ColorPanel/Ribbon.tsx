@@ -90,10 +90,10 @@ const Ribbon: FC<TPropsComp> = ({ rootPrefixCls, color, onChange, setChange }) =
   const per = (hue / 360) * 100;
 
   return (
-    <div className={prefixCls} ref={node}>
+    <div className={prefixCls} ref={node} onMouseDown={onMouseDown}>
       <div className='color-picker-panel-ribbon-bg' />
       <span style={{ left: `${per}%`, backgroundColor: hueColor }} />
-      <div className={`${prefixCls}-handler`} onMouseDown={onMouseDown} />
+      <div className={`${prefixCls}-handler`} />
     </div>
   );
 };

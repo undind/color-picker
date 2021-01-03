@@ -13,6 +13,7 @@ const ColorPickerSolid: FC<IPropsComp> = ({
   debounceMS = 300,
   debounce = true,
   showAlpha = true,
+  colorBoardHeight = 120,
 }) => {
   const node = useRef<HTMLDivElement | null>(null);
 
@@ -44,7 +45,13 @@ const ColorPickerSolid: FC<IPropsComp> = ({
 
   return (
     <div ref={node} className='colorpicker'>
-      <ColorPickerPanel hex={color.hex} alpha={color.alpha} showAlpha={showAlpha} onChange={onCompleteChange} />
+      <ColorPickerPanel
+        hex={color.hex}
+        alpha={color.alpha}
+        colorBoardHeight={colorBoardHeight}
+        showAlpha={showAlpha}
+        onChange={onCompleteChange}
+      />
       <InputRgba
         hex={color.hex}
         alpha={color.alpha}

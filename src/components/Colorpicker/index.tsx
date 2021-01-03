@@ -16,6 +16,8 @@ const ColorPicker: FC<IPropsMain> = ({
   debounceMS = 300,
   debounce = true,
   showAlpha = true,
+  popupWidth = 267,
+  colorBoardHeight = 120,
   onChange = () => ({}),
 }) => {
   const [activeTab, setActiveTab] = useState(getIndexActiveTag(value));
@@ -30,7 +32,7 @@ const ColorPicker: FC<IPropsMain> = ({
 
   if (solid && gradient) {
     return (
-      <PopupTabs activeTab={activeTab}>
+      <PopupTabs activeTab={activeTab} popupWidth={popupWidth}>
         <PopupTabsHeader>
           <PopupTabsHeaderLabel tabID={0} onClick={() => setActiveTab(0)}>
             Solid
@@ -47,6 +49,7 @@ const ColorPicker: FC<IPropsMain> = ({
               debounceMS={debounceMS}
               debounce={debounce}
               showAlpha={showAlpha}
+              colorBoardHeight={colorBoardHeight}
             />
           </PopupTabsBodyItem>
           <PopupTabsBodyItem tabID={1}>
@@ -56,6 +59,7 @@ const ColorPicker: FC<IPropsMain> = ({
               debounceMS={debounceMS}
               debounce={debounce}
               showAlpha={showAlpha}
+              colorBoardHeight={colorBoardHeight}
             />
           </PopupTabsBodyItem>
         </PopupTabsBody>
@@ -64,7 +68,7 @@ const ColorPicker: FC<IPropsMain> = ({
   }
 
   return (
-    <PopupTabs>
+    <PopupTabs popupWidth={popupWidth}>
       <PopupTabsBody>
         {solid ? (
           <Solid
@@ -73,6 +77,7 @@ const ColorPicker: FC<IPropsMain> = ({
             debounceMS={debounceMS}
             debounce={debounce}
             showAlpha={showAlpha}
+            colorBoardHeight={colorBoardHeight}
           />
         ) : (
           <Fragment />
@@ -84,6 +89,7 @@ const ColorPicker: FC<IPropsMain> = ({
             debounceMS={debounceMS}
             debounce={debounce}
             showAlpha={showAlpha}
+            colorBoardHeight={colorBoardHeight}
           />
         ) : (
           <Fragment />
